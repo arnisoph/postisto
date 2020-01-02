@@ -1,0 +1,29 @@
+# vim: ts=2 sw=2 et
+
+filters:
+  local_imap_server:
+    shops:
+      commands:
+        move: Shops
+        add_flags:
+          - '\Flagged'
+      rules:
+        - or:
+          - from:
+            - ebay
+            - paypal
+            - google
+            - amazon
+          - from:
+            - '.*@amazon.com'
+            - example.
+        - and:
+          - from:
+            - amazon
+          - to:
+            - example.com
+        - and:
+          - from:
+            - google
+          - subject:
+            - Your order

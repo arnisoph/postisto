@@ -1,0 +1,383 @@
+X-Custom-Mail-Id: 17
+Return-Path: <noreply@github.com>
+Delivered-To: mail@arnoldbechtoldt.com
+Received: from director-02.heinlein-hosting.de ([2001:67c:2050:104:0:1:25:1])
+	by dobby21b.mgmt.heinlein-hosting.de with LMTP id oD8TOqAd5l3GegEApNz93A
+	for <mail@arnoldbechtoldt.com>; Tue, 03 Dec 2019 09:32:33 +0100
+Received: from mx1.mailbox.org ([2001:67c:2050:104:0:1:25:1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	by director-02.heinlein-hosting.de with LMTP id gAdRNqAd5l3xxAEAlp8NpQ
+	; Tue, 03 Dec 2019 09:32:32 +0100
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Authentication-Results: spamfilter04.heinlein-hosting.de (amavisd-new);
+	dkim=pass (1024-bit key) header.d=github.com
+X-policyd-weight: using cached result; rate: -5.5
+Received: from out-24.smtp.github.com (out-24.smtp.github.com [192.30.252.207])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.mailbox.org (Postfix) with ESMTPS id CECAD4F953
+	for <mail@arnoldbechtoldt.com>; Tue,  3 Dec 2019 09:32:26 +0100 (CET)
+Date: Tue, 03 Dec 2019 00:32:25 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=github.com;
+	s=pf2014; t=1575361945;
+	bh=38WreUYZs3ZSmLVOPwE9AzAiP8CCVOpwtZ0l5Ozap7c=;
+	h=Date:From:Reply-To:To:Cc:Subject:List-ID:List-Archive:List-Post:
+	 List-Unsubscribe:From;
+	b=fo18rnlFcEzIOrVZktbutWQ4og6npwSBnrlg7KD9NLcWUxpk9ItEm76JZkxzjFoAG
+	 YoYSc16wbGJ2X2f2j3i6RjIQW5Vwu6kzeT4J9peuEWu4WIn09KMf+3qCcXV4LFeGsZ
+	 1wqKVc5gMc01IU92Gxfccuto2rALUbGiC1wLjWkA=
+From: =?UTF-8?B?5qKm6b6Z5ZGo?= <tuifeideyaozi@gmail.com>
+Reply-To: arnisoph/cloud-provision <reply+AALQBMCYZ7MNCSEDRMYOHHN36NIBTEVBNHHB7MWQHQ@reply.github.com>
+To: arnisoph/cloud-provision <cloud-provision@noreply.github.com>
+Cc: Security alert <security_alert@noreply.github.com>
+Message-ID: <arnisoph/cloud-provision/pull/1@github.com>
+Subject: [arnisoph/cloud-provision] Bump ecdsa from 0.13 to 0.13.3 (#1)
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_5de61d99691ea_20703fc5f86cd95c371872";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Precedence: list
+X-GitHub-Sender: dependabot[bot]
+X-GitHub-Recipient: arnisoph
+X-GitHub-Reason: security_alert
+List-ID: arnisoph/cloud-provision <cloud-provision.arnisoph.github.com>
+List-Archive: https://github.com/arnisoph/cloud-provision
+List-Post: <mailto:reply+AALQBMCYZ7MNCSEDRMYOHHN36NIBTEVBNHHB7MWQHQ@reply.github.com>
+List-Unsubscribe: <mailto:unsub+AALQBMCYZ7MNCSEDRMYOHHN36NIBTEVBNHHB7MWQHQ@reply.github.com>,
+ <https://github.com/notifications/unsubscribe/AALQBMAUI6URNKZ4EUWNCHLQWYKRTANCNFSM4JUUAUWA>
+X-Auto-Response-Suppress: All
+X-GitHub-Recipient-Address: mail@arnoldbechtoldt.com
+X-Rspamd-Queue-Id: CECAD4F953
+X-Rspamd-Score: -10.02 / 15.00 / 150.00
+
+
+----==_mimepart_5de61d99691ea_20703fc5f86cd95c371872
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+This automated pull request fixes a security vulnerability (moderate severity):
+https://github.com/arnisoph/cloud-provision/network/alert/requirements.txt/ecdsa/open
+
+Learn more about automated security updates:
+https://help.github.com/github/managing-security-vulnerabilities/configuring-automated-security-fixes
+
+--
+
+Bumps [ecdsa](https://github.com/warner/python-ecdsa) from 0.13 to 0.13.3.
+&lt;details&gt;
+&lt;summary&gt;Release notes&lt;/summary&gt;
+
+*Sourced from [ecdsa&#39;s releases](https://github.com/warner/python-ecdsa/releases).*
+
+&gt; ## ecdsa 0.13.3
+&gt; Fix CVE-2019-14853 - possible DoS caused by malformed signature decoding
+&gt; Fix CVE-2019-14859 - signature malleability caused by insufficient checks of DER encoding
+&gt;
+&gt; Also harden key decoding from string and DER encodings.
+&gt;
+&gt; ## ecdsa 0.13.2
+&gt; Restore compatibility of setup.py with Python 2.6 and 2.7.
+&gt;
+&gt; ## ecdsa 0.13.1
+&gt; Fix the PyPI wheel - the old version included .pyc files.
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt;Changelog&lt;/summary&gt;
+
+*Sourced from [ecdsa&#39;s changelog](https://github.com/warner/python-ecdsa/blob/master/NEWS).*
+
+&gt; * Release 0.14.1 (06 Nov 2019)
+&gt;
+&gt; Remove the obsolete `six.py` file from wheel
+&gt;
+&gt; * Release 0.14 (06 Nov 2019)
+&gt;
+&gt; Bug fixes:
+&gt; Strict checking of DER requirements when parsing SEQUENCE, INTEGER,
+&gt; OBJECT IDENTIFIER and BITSTRING objects.
+&gt; DER parsers now consistently raise `UnexpectedDER` exception on malformed DER
+&gt; encoded byte strings.
+&gt; Make sure that both malformed and invalid signatures raise `BadSignatureError`.
+&gt; Ensure that all `SigningKey` and `VerifyingKey` methods that should accept
+&gt; bytes-like objects actually do accept them (also avoid copying input strings).
+&gt; Make `SigningKey.sign_digest_deterministic` use default object hashfunc when
+&gt; none was provided.
+&gt; `encode_integer` now works for large integers.
+&gt; Make `encode_oid` and `remove_object` correctly handle OBJECT IDENTIFIERs
+&gt; with large second subidentifier and padding in encoded subidentifiers.
+&gt;
+&gt; New features:
+&gt; Deterministic signature methods now accept `extra_entropy` parameter to further
+&gt; randomise the selection of `k` (the nonce) for signature, as specified in
+&gt; RFC6979.
+&gt; Recovery of public key from signature is now supported.
+&gt; Support for SEC1/X9.62 formatted keys, all three encodings are supported:
+&gt; &quot;uncompressed&quot;, &quot;compressed&quot; and &quot;hybrid&quot;. Both string, and PEM/DER will
+&gt; automatically accept them, if the size of the key matches the curve.
+&gt; Benchmarking application now provides performance numbers that are easier to
+&gt; compare against OpenSSL.
+&gt; Support for all Brainpool curves (non-twisted).
+&gt;
+&gt; New API:
+&gt; `CurveFp`: `__str__` is now supported.
+&gt; `SigningKey.sign_deterministic`, `SigningKey.sign_digest_deterministic` and
+&gt; `generate_k`: extra_entropy parameter was added
+&gt; `Signature.recover_public_keys` was added
+&gt; `VerifyingKey.from_public_key_recovery` and
+&gt; `VerifyingKey.from_public_key_recovery_with_digest` were added
+&gt; `VerifyingKey.to_string`: `encoding` parameter was added
+&gt; `VerifyingKey.to_der` and `SigningKey.to_der`: `point_encoding` parameter was
+&gt; added.
+&gt; `encode_bitstring`: `unused` parameter was added
+&gt; `remove_bitstring`: `expect_unused` parameter was added
+&gt; `SECP256k1` is now part of `curves` `*` import
+&gt; `Curves`: `__repr__` is now supported
+&gt; `VerifyingKey`: `__repr__` is now supported
+&gt;
+&gt; Deprecations:
+&gt; Python 2.5 is not supported any more - dead code removal.
+&gt;&lt;/tr&gt;&lt;/table&gt; ... (truncated)
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt;Commits&lt;/summary&gt;
+
+- [`7add221`](https://github.com/warner/python-ecdsa/commit/7add2213c992f51267eed8288b560f3f4108a28d) update NEWS file for 0.13.3
+- [`5c4c74a`](https://github.com/warner/python-ecdsa/commit/5c4c74a454c852727ac3c0207a4010486dde1866) Merge pull request [#124](https://github-redirect.dependabot.com/warner/python-ecdsa/issues/124) from tomato42/backport-sig-decode
+- [`1eb2c04`](https://github.com/warner/python-ecdsa/commit/1eb2c0410b97ac5101b5db20e2924d79db3e8ec5) update README with error handling of from_string() and from_der()
+- [`b95be03`](https://github.com/warner/python-ecdsa/commit/b95be03d8540b3a088263cbb3a0a376a8a0efbd0) execute also new tests in Travis
+- [`99c907d`](https://github.com/warner/python-ecdsa/commit/99c907d7acc94da6685470328174ea7299863dfd) harden also key decoding
+- [`3427fa2`](https://github.com/warner/python-ecdsa/commit/3427fa29f319b27898a28601955807abb44c0830) ensure that the encoding is actually the minimal one for length and integer
+- [`563d2ee`](https://github.com/warner/python-ecdsa/commit/563d2ee2c07e10ae4f77ccde4161d6a14c681b1b) make variable names in remove_integer more aproppriate
+- [`14abfe0`](https://github.com/warner/python-ecdsa/commit/14abfe020d4907fd9849f269b98f5f8f1060366b) explicitly specify the distro to get py26 and py33
+- [`9080d1d`](https://github.com/warner/python-ecdsa/commit/9080d1d5ac533da0de00466aaffb49bee808bb4e) fix length decoding
+- [`897178c`](https://github.com/warner/python-ecdsa/commit/897178ca093282979ff19cc4035eadbc30ac0d23) give the same handling to string encoded signatures as to DER
+- Additional commits viewable in [compare view](https://github.com/warner/python-ecdsa/compare/python-ecdsa-0.13...python-ecdsa-0.13.3)
+&lt;/details&gt;
+&lt;br /&gt;
+
+[![Dependabot compatibility score](https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=ecdsa&amp;package-manager=pip&amp;previous-version=0.13&amp;new-version=0.13.3)](https://help.github.com/articles/configuring-automated-security-fixes)
+
+Dependabot will resolve any conflicts with this PR as long as you don&#39;t alter it yourself. You can also trigger a rebase manually by commenting `@dependabot rebase`.
+
+[//]: # (dependabot-automerge-start)
+[//]: # (dependabot-automerge-end)
+
+---
+
+&lt;details&gt;
+&lt;summary&gt;Dependabot commands and options&lt;/summary&gt;
+&lt;br /&gt;
+
+You can trigger Dependabot actions by commenting on this PR:
+- `@dependabot rebase` will rebase this PR
+- `@dependabot recreate` will recreate this PR, overwriting any edits that have been made to it
+- `@dependabot merge` will merge this PR after your CI passes on it
+- `@dependabot squash and merge` will squash and merge this PR after your CI passes on it
+- `@dependabot cancel merge` will cancel a previously requested merge and block automerging
+- `@dependabot reopen` will reopen this PR if it is closed
+- `@dependabot ignore this [patch|minor|major] version` will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot ignore this dependency` will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)
+- `@dependabot use these labels` will set the current labels as the default for future PRs for this repo and language
+- `@dependabot use these reviewers` will set the current reviewers as the default for future PRs for this repo and language
+- `@dependabot use these assignees` will set the current assignees as the default for future PRs for this repo and language
+- `@dependabot use this milestone` will set the current milestone as the default for future PRs for this repo and language
+
+You can disable automated security fix PRs for this repo from the [Security Alerts page](https://github.com/arnisoph/cloud-provision/network/alerts).
+
+&lt;/details&gt;
+You can view, comment on, or merge this pull request online at:
+
+  https://github.com/arnisoph/cloud-provision/pull/1
+
+-- Commit Summary --
+
+  * Bump ecdsa from 0.13 to 0.13.3
+
+-- File Changes --
+
+    M requirements.txt (2)
+
+-- Patch Links --
+
+https://github.com/arnisoph/cloud-provision/pull/1.patch
+https://github.com/arnisoph/cloud-provision/pull/1.diff
+
+--
+You are receiving this because you have alerting access.
+Reply to this email directly or view it on GitHub:
+https://github.com/arnisoph/cloud-provision/pull/1
+
+----==_mimepart_5de61d99691ea_20703fc5f86cd95c371872
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+  <h4>
+    This automated pull request fixes a
+    <a href="https://github.com/arnisoph/cloud-provision/network/alert/requirements.txt/ecdsa/open">security vulnerability</a> (moderate severity).
+  </h4>
+
+  <p>
+    <a href="https://help.github.com/github/managing-security-vulnerabilities/configuring-automated-security-fixes" target="_blank">Learn more about automated security updates</a>.
+  </p>
+  <hr>
+<p>Bumps <a href="https://github.com/warner/python-ecdsa">ecdsa</a> from 0.13 to 0.13.3.</p>
+<details>
+<summary>Release notes</summary>
+<p><em>Sourced from <a href="https://github.com/warner/python-ecdsa/releases">ecdsa's releases</a>.</em></p>
+<blockquote>
+<h2>ecdsa 0.13.3</h2>
+<p>Fix <a title="CVE-2019-14853" data-hovercard-type="advisory" data-hovercard-url="/advisories/GHSA-pwfw-mgfj-7g3g/hovercard" href="https://github.com/advisories/GHSA-pwfw-mgfj-7g3g">CVE-2019-14853</a> - possible DoS caused by malformed signature decoding<br>
+Fix CVE-2019-14859 - signature malleability caused by insufficient checks of DER encoding</p>
+<p>Also harden key decoding from string and DER encodings.</p>
+<h2>ecdsa 0.13.2</h2>
+<p>Restore compatibility of setup.py with Python 2.6 and 2.7.</p>
+<h2>ecdsa 0.13.1</h2>
+<p>Fix the PyPI wheel - the old version included .pyc files.</p>
+</blockquote>
+</details>
+<details>
+<summary>Changelog</summary>
+<p><em>Sourced from <a href="https://github.com/warner/python-ecdsa/blob/master/NEWS">ecdsa's changelog</a>.</em></p>
+<blockquote>
+<ul>
+<li>Release 0.14.1 (06 Nov 2019)</li>
+</ul>
+<p>Remove the obsolete <code>six.py</code> file from wheel</p>
+<ul>
+<li>Release 0.14 (06 Nov 2019)</li>
+</ul>
+<p>Bug fixes:<br>
+Strict checking of DER requirements when parsing SEQUENCE, INTEGER,<br>
+OBJECT IDENTIFIER and BITSTRING objects.<br>
+DER parsers now consistently raise <code>UnexpectedDER</code> exception on malformed DER<br>
+encoded byte strings.<br>
+Make sure that both malformed and invalid signatures raise <code>BadSignatureError</code>.<br>
+Ensure that all <code>SigningKey</code> and <code>VerifyingKey</code> methods that should accept<br>
+bytes-like objects actually do accept them (also avoid copying input strings).<br>
+Make <code>SigningKey.sign_digest_deterministic</code> use default object hashfunc when<br>
+none was provided.<br>
+<code>encode_integer</code> now works for large integers.<br>
+Make <code>encode_oid</code> and <code>remove_object</code> correctly handle OBJECT IDENTIFIERs<br>
+with large second subidentifier and padding in encoded subidentifiers.</p>
+<p>New features:<br>
+Deterministic signature methods now accept <code>extra_entropy</code> parameter to further<br>
+randomise the selection of <code>k</code> (the nonce) for signature, as specified in<br>
+RFC6979.<br>
+Recovery of public key from signature is now supported.<br>
+Support for SEC1/X9.62 formatted keys, all three encodings are supported:<br>
+"uncompressed", "compressed" and "hybrid". Both string, and PEM/DER will<br>
+automatically accept them, if the size of the key matches the curve.<br>
+Benchmarking application now provides performance numbers that are easier to<br>
+compare against OpenSSL.<br>
+Support for all Brainpool curves (non-twisted).</p>
+<p>New API:<br>
+<code>CurveFp</code>: <code>__str__</code> is now supported.<br>
+<code>SigningKey.sign_deterministic</code>, <code>SigningKey.sign_digest_deterministic</code> and<br>
+<code>generate_k</code>: extra_entropy parameter was added<br>
+<code>Signature.recover_public_keys</code> was added<br>
+<code>VerifyingKey.from_public_key_recovery</code> and<br>
+<code>VerifyingKey.from_public_key_recovery_with_digest</code> were added<br>
+<code>VerifyingKey.to_string</code>: <code>encoding</code> parameter was added<br>
+<code>VerifyingKey.to_der</code> and <code>SigningKey.to_der</code>: <code>point_encoding</code> parameter was<br>
+added.<br>
+<code>encode_bitstring</code>: <code>unused</code> parameter was added<br>
+<code>remove_bitstring</code>: <code>expect_unused</code> parameter was added<br>
+<code>SECP256k1</code> is now part of <code>curves</code> <code>*</code> import<br>
+<code>Curves</code>: <code>__repr__</code> is now supported<br>
+<code>VerifyingKey</code>: <code>__repr__</code> is now supported</p>
+<p>Deprecations:<br>
+Python 2.5 is not supported any more - dead code removal.</p>
+ ... (truncated)
+</blockquote>
+</details>
+<details>
+<summary>Commits</summary>
+<ul>
+<li><a href="https://github.com/warner/python-ecdsa/commit/7add2213c992f51267eed8288b560f3f4108a28d"><code>7add221</code></a> update NEWS file for 0.13.3</li>
+<li><a href="https://github.com/warner/python-ecdsa/commit/5c4c74a454c852727ac3c0207a4010486dde1866"><code>5c4c74a</code></a> Merge pull request <a href="https://github-redirect.dependabot.com/warner/python-ecdsa/issues/124" rel="nofollow">#124</a> from tomato42/backport-sig-decode</li>
+<li><a href="https://github.com/warner/python-ecdsa/commit/1eb2c0410b97ac5101b5db20e2924d79db3e8ec5"><code>1eb2c04</code></a> update README with error handling of from_string() and from_der()</li>
+<li><a href="https://github.com/warner/python-ecdsa/commit/b95be03d8540b3a088263cbb3a0a376a8a0efbd0"><code>b95be03</code></a> execute also new tests in Travis</li>
+<li><a href="https://github.com/warner/python-ecdsa/commit/99c907d7acc94da6685470328174ea7299863dfd"><code>99c907d</code></a> harden also key decoding</li>
+<li><a href="https://github.com/warner/python-ecdsa/commit/3427fa29f319b27898a28601955807abb44c0830"><code>3427fa2</code></a> ensure that the encoding is actually the minimal one for length and integer</li>
+<li><a href="https://github.com/warner/python-ecdsa/commit/563d2ee2c07e10ae4f77ccde4161d6a14c681b1b"><code>563d2ee</code></a> make variable names in remove_integer more aproppriate</li>
+<li><a href="https://github.com/warner/python-ecdsa/commit/14abfe020d4907fd9849f269b98f5f8f1060366b"><code>14abfe0</code></a> explicitly specify the distro to get py26 and py33</li>
+<li><a href="https://github.com/warner/python-ecdsa/commit/9080d1d5ac533da0de00466aaffb49bee808bb4e"><code>9080d1d</code></a> fix length decoding</li>
+<li><a href="https://github.com/warner/python-ecdsa/commit/897178ca093282979ff19cc4035eadbc30ac0d23"><code>897178c</code></a> give the same handling to string encoded signatures as to DER</li>
+<li>Additional commits viewable in <a href="https://github.com/warner/python-ecdsa/compare/python-ecdsa-0.13...python-ecdsa-0.13.3">compare view</a></li>
+</ul>
+</details>
+<br>
+<p><a href="https://help.github.com/articles/configuring-automated-security-fixes"><img src="https://camo.githubusercontent.com/0659e1d2c178325b81d176bd2bb84ee3e1dd2190/68747470733a2f2f646570656e6461626f742d6261646765732e6769746875626170702e636f6d2f6261646765732f636f6d7061746962696c6974795f73636f72653f646570656e64656e63792d6e616d653d6563647361267061636b6167652d6d616e616765723d7069702670726576696f75732d76657273696f6e3d302e3133266e65772d76657273696f6e3d302e31332e33" alt="Dependabot compatibility score" data-canonical-src="https://dependabot-badges.githubapp.com/badges/compatibility_score?dependency-name=ecdsa&amp;package-manager=pip&amp;previous-version=0.13&amp;new-version=0.13.3" style="max-width:100%;"></a></p>
+<p>Dependabot will resolve any conflicts with this PR as long as you don't alter it yourself. You can also trigger a rebase manually by commenting <code>@dependabot rebase</code>.</p>
+<hr>
+<details>
+<summary>Dependabot commands and options</summary>
+<br>
+<p>You can trigger Dependabot actions by commenting on this PR:</p>
+<ul>
+<li><code>@dependabot rebase</code> will rebase this PR</li>
+<li><code>@dependabot recreate</code> will recreate this PR, overwriting any edits that have been made to it</li>
+<li><code>@dependabot merge</code> will merge this PR after your CI passes on it</li>
+<li><code>@dependabot squash and merge</code> will squash and merge this PR after your CI passes on it</li>
+<li><code>@dependabot cancel merge</code> will cancel a previously requested merge and block automerging</li>
+<li><code>@dependabot reopen</code> will reopen this PR if it is closed</li>
+<li><code>@dependabot ignore this [patch|minor|major] version</code> will close this PR and stop Dependabot creating any more for this minor/major version (unless you reopen the PR or upgrade to it yourself)</li>
+<li><code>@dependabot ignore this dependency</code> will close this PR and stop Dependabot creating any more for this dependency (unless you reopen the PR or upgrade to it yourself)</li>
+<li><code>@dependabot use these labels</code> will set the current labels as the default for future PRs for this repo and language</li>
+<li><code>@dependabot use these reviewers</code> will set the current reviewers as the default for future PRs for this repo and language</li>
+<li><code>@dependabot use these assignees</code> will set the current assignees as the default for future PRs for this repo and language</li>
+<li><code>@dependabot use this milestone</code> will set the current milestone as the default for future PRs for this repo and language</li>
+</ul>
+<p>You can disable automated security fix PRs for this repo from the <a href="https://github.com/arnisoph/cloud-provision/network/alerts">Security Alerts page</a>.</p>
+</details>
+
+<hr>
+
+<h4>You can view, comment on, or merge this pull request online at:</h4>
+<p>&nbsp;&nbsp;<a href='https://github.com/arnisoph/cloud-provision/pull/1'>https://github.com/arnisoph/cloud-provision/pull/1</a></p>
+
+<h4>Commit Summary</h4>
+<ul>
+  <li>Bump ecdsa from 0.13 to 0.13.3</li>
+</ul>
+
+<h4>File Changes</h4>
+<ul>
+  <li>
+    <strong>M</strong>
+    <a href="https://github.com/arnisoph/cloud-provision/pull/1/files#diff-0">requirements.txt</a>
+    (2)
+  </li>
+</ul>
+
+<h4>Patch Links:</h4>
+<ul>
+  <li><a href='https://github.com/arnisoph/cloud-provision/pull/1.patch'>https://github.com/arnisoph/cloud-provision/pull/1.patch</a></li>
+  <li><a href='https://github.com/arnisoph/cloud-provision/pull/1.diff'>https://github.com/arnisoph/cloud-provision/pull/1.diff</a></li>
+</ul>
+
+<p style="font-size:small;-webkit-text-size-adjust:none;color:#666;">&mdash;<br />You are receiving this because you have alerting access.<br />Reply to this email directly, <a href="https://github.com/arnisoph/cloud-provision/pull/1?email_source=notifications&amp;email_token=AALQBMGCLJFQGV4NTSKXDITQWYKRTA5CNFSM4JUUAUWKYY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4H5S2A6A">view it on GitHub</a>, or <a href="https://github.com/notifications/unsubscribe-auth/AALQBMANTKMS2Z775EY5BHLQWYKRTANCNFSM4JUUAUWA">unsubscribe</a>.<img src="https://github.com/notifications/beacon/AALQBMG3SI5ST57GFCCMHMDQWYKRTA5CNFSM4JUUAUWKYY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4H5S2A6A.gif" height="1" width="1" alt="" /></p>
+<script type="application/ld+json">[
+{
+"@context": "http://schema.org",
+"@type": "EmailMessage",
+"potentialAction": {
+"@type": "ViewAction",
+"target": "https://github.com/arnisoph/cloud-provision/pull/1?email_source=notifications\u0026email_token=AALQBMGCLJFQGV4NTSKXDITQWYKRTA5CNFSM4JUUAUWKYY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4H5S2A6A",
+"url": "https://github.com/arnisoph/cloud-provision/pull/1?email_source=notifications\u0026email_token=AALQBMGCLJFQGV4NTSKXDITQWYKRTA5CNFSM4JUUAUWKYY3PNVWWK3TUL52HS4DFUVEXG43VMWVGG33NNVSW45C7NFSM4H5S2A6A",
+"name": "View Pull Request"
+},
+"description": "View this Pull Request on GitHub",
+"publisher": {
+"@type": "Organization",
+"name": "GitHub",
+"url": "https://github.com"
+}
+}
+]</script>
+
+----==_mimepart_5de61d99691ea_20703fc5f86cd95c371872--
+

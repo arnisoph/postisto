@@ -1,4 +1,7 @@
+*.tmp
+/postisto
+coverage.txt
+config/**/*.yaml
+config/**/*.yml
+test/data/configs/invalid-unreadable-file/
 vendor/
-.vscode/
-.idea/
-postisto

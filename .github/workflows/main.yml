@@ -1,0 +1,58 @@
+name: main
+on:
+  - push
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.13
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+
+    - name: Get dependencies
+      run: |
+        go mod download
+
+    - name: Build
+      run: go build -v -o postisto cmd/postisto/main.go
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.13
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+        id: go
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+
+      - name: Get dependencies
+        run: |
+          go mod download
+
+      - name: setup integration env
+        run: |
+          docker run -d -p 10143:143 -p 10993:993 -p 6379:6379 -v /dev/random:/dev/random:ro --name postisto-test-server bechtoldt/tabellarius_tests-docker || true
+
+      - name: go test
+        env:
+          POSTISTO_GMAIL_TEST_ACC_USERNAME: ${{ secrets.POSTISTO_GMAIL_TEST_ACC_USERNAME }}
+          POSTISTO_GMAIL_TEST_ACC_PASSWORD: ${{ secrets.POSTISTO_GMAIL_TEST_ACC_PASSWORD }}
+        run: |
+          go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+
+      - name: upload code coverage
+        env: # Or as an environment variable
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          bash <(curl -s https://codecov.io/bash)

@@ -1,0 +1,30 @@
+# vim: ts=2 sw=2 et
+
+filters:
+  local_imap_server:
+# Send these 3 mails to INBOX
+#      main:
+#        commands:
+#          move: MyTarget
+#        rules:
+#          - and:
+#            - from:
+#              - @youth4work.com
+    test_mail16:
+      commands:
+        move: MailFilterTest-baz
+      rules:
+        - and:
+          - X-Custom-Mail-Id:
+            - '16'
+          - X-Notes-Item:
+            - CSMemoFrom
+    test_mail17:
+      commands:
+        move: MailFilterTest-zab
+      rules:
+        - and:
+          - X-Custom-Mail-Id:
+            - '17'
+          - Received:
+            - 192.30.252.207

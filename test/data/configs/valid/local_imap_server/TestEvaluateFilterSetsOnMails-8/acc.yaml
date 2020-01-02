@@ -1,0 +1,7 @@
+accounts:
+  local_imap_server: #TODO rename
+    enable: true
+    connection:
+      server: imap.gmail.com
+      port: 993
+      imaps: true
