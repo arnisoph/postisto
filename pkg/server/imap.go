@@ -250,7 +250,7 @@ func (conn *Connection) List() (map[string]imapUtil.MailboxInfo, error) {
 //
 //	if err := acc.Connection.Connection.Copy(&seqset, mailbox); err != nil {
 //		if strings.HasPrefix(err.Error(), fmt.Sprintf("Mailbox doesn't exist: %v", mailbox)) {
-//			// COPY failed becuase the target mailbox doesn't exist. Create it.
+//			// COPY failed because the target mailbox doesn't exist. Create it.
 //			if err := CreateMailbox(acc, mailbox); err != nil {
 //				return err
 //			}
