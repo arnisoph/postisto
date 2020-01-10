@@ -1,0 +1,24 @@
+accounts:
+  gmail:
+    enable: true
+    connection:
+      server: imap.gmail.com
+      port: 993
+      username: user@gmail.com
+      password: <password>
+      imaps: true
+filters:
+  gmail:
+    shops:
+      commands:
+        move: Shops
+      rules:
+        - or:
+          - subject: Your order
+    schreiner:
+      commands:
+        move: Shops/Holz
+      rules:
+        - or:
+          - subject: Your Holz order
+          - subject: was mit holz

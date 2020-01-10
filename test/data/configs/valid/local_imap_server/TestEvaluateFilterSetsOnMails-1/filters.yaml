@@ -1,0 +1,11 @@
+# vim: ts=2 sw=2 et
+
+filters:
+  local_imap_server:
+    main:
+      commands:
+        move: MyTarget
+      rules:
+        - and:
+          - from:
+            - "@youth4work.com"

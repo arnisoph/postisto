@@ -1,0 +1,24 @@
+# vim: ts=2 sw=2 et
+
+accounts:
+  test:
+    enable: true
+    connection:
+      server: imap.server.de
+      username: imap@account.de
+      password: secure_password
+      sort_mailbox: INBOX
+      password_enc: | #echo pass | gpg2 --encrypt -r ID --armor
+        -----BEGIN PGP MESSAGE-----
+        ...
+        -----END PGP MESSAGE-----
+  gmail:
+    enable: false
+    connection:
+      server: imap.gmail.com
+      port: 993
+      imaps: true
+      starttls: false
+      username: user@gmail.com
+      password: secure_password
+  local_imap_server:

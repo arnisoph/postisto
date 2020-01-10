@@ -1,0 +1,7 @@
+accounts:
+  local_imap_server:
+    enable: true
+    connection:
+      server: localhost
+      port: 10143
+      cacertfile: ../../test/data/certs/ca.pem

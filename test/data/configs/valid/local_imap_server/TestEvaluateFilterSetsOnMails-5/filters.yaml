@@ -1,0 +1,32 @@
+# vim: ts=2 sw=2 et
+
+filters:
+  local_imap_server:
+   main:
+     commands:
+       move: MyTarget
+     rules:
+       - and:
+         - from:
+           - "@youth4work.com"
+   test_unicode_from:
+     commands:
+       move: MailFilterTest-TestUnicodeFrom-梦龙周
+     rules:
+       - and:
+         - from:
+             - tuifeideyaozi@gmail.com
+             - 梦龙周 <tuifeideyaozi@gmail.com>
+             - 梦龙周
+             - '梦龙周'
+   test_unicode_subject:
+     commands:
+       move: MailFilterTest-TestUnicodeSubject
+     rules:
+       - and:
+         - subject:
+           - 'AW: Account öfters mal reaktivieren'
+         - subject:
+           - '^AW: Account öfters mal reaktivieren$'
+         - subject:
+           - '^.*ö.*$'

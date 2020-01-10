@@ -1,0 +1,20 @@
+# vim: ts=2 sw=2 et
+
+filters:
+  local_imap_server:
+    main:
+      commands:
+        move: MyTarget
+      rules:
+        - and:
+          - from:
+            - "@youth4work.com"
+    test_and:
+      commands:
+        move: MailFilterTest-TestAND
+      rules:
+        - and:
+          - from:
+            - BigRock.com Sales Team
+          - delivered-to:
+            - cyberzonec.in
