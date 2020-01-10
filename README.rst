@@ -3,8 +3,6 @@ poŝtisto
 
 |license| |release| |gitter| |build| |docker| |godocs| |gomod| |codecov| |goreport| |codebeat|
 
-quite okay mail-sorting
-
 .. |license| image:: https://img.shields.io/badge/license-Apache--2.0-blue.svg
     :alt: Apache-2.0-licensed
     :target: https://github.com/arnisoph/postisto/blob/master/LICENSE
@@ -18,7 +16,6 @@ quite okay mail-sorting
 
 .. |build| image:: https://img.shields.io/github/workflow/status/arnisoph/postisto/main/master
     :alt: GitHub Workflow Status (branch)
-    :target: https://github.com/arnisoph/postisto/actions
 
 .. |docker| image:: https://img.shields.io/docker/pulls/bechtoldt/postisto.svg
     :alt: Docker image pulls
@@ -37,7 +34,7 @@ quite okay mail-sorting
 
 .. |goreport| image:: https://goreportcard.com/badge/github.com/arnisoph/postisto
     :alt: Go Report Card
-    :taget: https://goreportcard.com/report/github.com/arnisoph/postisto
+    :target: https://goreportcard.com/report/github.com/arnisoph/postisto
 
 .. |codebeat| image:: https://codebeat.co/badges/a8d3231c-ee9c-40f5-9bf9-450854a3567a
     :alt: codebeat badge
