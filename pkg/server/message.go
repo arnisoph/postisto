@@ -46,7 +46,7 @@ func parseMessageHeaders(rawMessage *imapUtil.Message) (MessageHeaders, error) {
 			return nil, err
 		} else {
 			if parsedList == "" {
-				// no need to set non-existant fields
+				// no need to set non-existent fields
 				continue
 			}
 

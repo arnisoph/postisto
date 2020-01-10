@@ -34,6 +34,9 @@ func EvaluateFilterSetsOnMsgs(srv *server.Connection, inputMailbox string, input
 
 	var remainingMsgs []*server.Message
 	msgs, err := GetUnsortedMsgs(srv, inputMailbox, inputWithoutFlags)
+	if err != nil {
+		return err
+	}
 
 	for _, msg := range msgs {
 		var matched bool

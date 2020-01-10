@@ -131,7 +131,7 @@ func TestMoveMails(t *testing.T) {
 	require.Equal(numTestmails, len(fetchedMails))
 	require.NoError(err)
 
-	// Move mails arround
+	// Move mails around
 	err = acc.Connection.Move([]uint32{fetchedMails[0].RawMessage.Uid}, "INBOX", "MyTarget42")
 	require.NoError(err)
 
