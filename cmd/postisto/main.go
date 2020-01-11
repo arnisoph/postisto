@@ -12,6 +12,8 @@ import (
 	"time"
 )
 
+var build string
+
 func main() {
 	var configPath string
 	var logLevel string
@@ -58,6 +60,7 @@ func main() {
 		Action: func(c *cli.Context) error {
 			return startApp(c, configPath, logLevel, logJSON, pollInterval)
 		},
+		Version: build,
 	}
 
 	if err := app.Run(os.Args); err != nil {
