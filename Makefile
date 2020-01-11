@@ -55,11 +55,7 @@ docker-build:
 docker-release: docker-build
 	docker push docker.pkg.github.com/arnisoph/postisto/linux:$(artifact_version)-$(gitrev)
 
-github-release:
-	echo TODO
-
-release: build github-release docker-release
-
+release: build docker-release
 
 
 ##### LINUX #####
