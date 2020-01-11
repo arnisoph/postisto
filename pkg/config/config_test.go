@@ -54,10 +54,16 @@ func TestNewConfigFromFile(t *testing.T) {
 	cfg, err = config.NewConfigFromFile("../../test/data/configs/invalid-unreadable-file/")
 	require.EqualError(err, "open ../../test/data/configs/invalid-unreadable-file/unreadable-file.testfile.yaml: permission denied")
 
-	// Fail to read unaccessible sub dir
+	// Fail to read unaccessible sub dir & file
 	require.NoError(os.MkdirAll("../../test/data/configs/invalid-unreadable-dir/dir", 0000))
 	require.NoError(os.Chmod("../../test/data/configs/invalid-unreadable-dir/dir", 0000))
 	_, err = config.NewConfigFromFile("../../test/data/configs/invalid-unreadable-dir/")
 	require.EqualError(err, "open ../../test/data/configs/invalid-unreadable-dir/dir: permission denied")
-	os.Chmod("../../test/data/configs/invalid-unreadable-dir/dir", 0755)
+	require.NoError(os.Chmod("../../test/data/configs/invalid-unreadable-dir/dir/", 0755))
+
+	require.NoError(ioutil.WriteFile("../../test/data/configs/invalid-unreadable-dir/dir/foo.yaml", []byte("foo"), 0000))
+	require.NoError(os.Chmod("../../test/data/configs/invalid-unreadable-dir/dir/foo.yaml", 0000))
+	_, err = config.NewConfigFromFile("../../test/data/configs/invalid-unreadable-dir/")
+	require.NoError(os.Chmod("../../test/data/configs/invalid-unreadable-dir/dir/foo.yaml", 0644))
+	require.EqualError(err, "open ../../test/data/configs/invalid-unreadable-dir/dir/foo.yaml: permission denied")
 }
