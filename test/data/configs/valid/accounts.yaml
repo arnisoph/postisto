@@ -6,12 +6,7 @@ accounts:
     connection:
       server: imap.server.de
       username: imap@account.de
-      password: secure_password
-      sort_mailbox: INBOX
-      password_enc: | #echo pass | gpg2 --encrypt -r ID --armor
-        -----BEGIN PGP MESSAGE-----
-        ...
-        -----END PGP MESSAGE-----
+      password: secure_pwd
   gmail:
     enable: false
     connection:
@@ -20,5 +15,13 @@ accounts:
       imaps: true
       starttls: false
       username: user@gmail.com
-      password: secure_password
+      password: secure_pwd
+  readenv1:
+    enable: true
+    connection:
+      server: nope
+  readenv2:
+    enable: true
+    connection:
+      server: nope
   local_imap_server:
