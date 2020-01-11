@@ -49,11 +49,11 @@ vendor: go.mod
 
 docker-build:
 	$(call build,linux,amd64,)
-	docker build -t bechtoldt/postisto:$(artifact_version)-$(gitrev) .
+	docker build -t docker.pkg.github.com/arnisoph/postisto/linux:$(artifact_version)-$(gitrev) .
 	make clean
 
-docker-release:
-	docker push bechtoldt/postisto:$(artifact_version)-$(gitrev)
+docker-release: docker-build
+	docker push docker.pkg.github.com/arnisoph/postisto/linux:$(artifact_version)-$(gitrev)
 
 github-release:
 	echo TODO

@@ -1,3 +1,4 @@
 FROM scratch
-ADD build/postisto /posisto
-CMD ["/posisto","--config","/config"]
+ADD build/postisto /postisto
+ENTRYPOINT ["/postisto"]
+CMD ["--config","/config"]
