@@ -41,9 +41,7 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 	}
 
 	if stat.IsDir() {
-		configFiles, passwords, err = walkConfigPath(configPath)
-
-		if err != nil {
+		if configFiles, passwords, err = walkConfigPath(configPath); err != nil {
 			log.Errorw("Failed to parse dir", err, "configPath", configPath)
 			return nil, err
 		}
