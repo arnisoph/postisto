@@ -7,15 +7,5 @@ accounts:
       server: localhost
       port: 10143
       imaps: false
-      #tlsverify: false
-      username: test-42@example.com
-      password: test
-  local_imap_server2:
-    enable: false
-    connection:
-      server: localhost
-      port: 10143
-      imaps: false
-      #tlsverify: false
       username: test-42@example.com
       password: test
