@@ -19,7 +19,7 @@ jobs:
 
     - name: Get dependencies
       run: |
-        make get
+        make go.get
 
     - name: Build
       run: |
@@ -40,7 +40,7 @@ jobs:
 
       - name: Get dependencies
         run: |
-          make get
+          make go.get
 
       - name: setup integration env
         run: |
