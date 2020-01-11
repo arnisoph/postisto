@@ -67,7 +67,7 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 		}
 
 		// Merge configs from files
-		if err := mergo.Merge(cfg, fileCfg, mergo.WithOverride); err != nil {
+		if err := mergo.Merge(cfg, fileCfg, mergo.WithOverride, mergo.WithTypeCheck); err != nil {
 			log.Errorw("Failed to merge YAML file", err, "file", file)
 			return nil, err
 		}

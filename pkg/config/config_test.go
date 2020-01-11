@@ -40,17 +40,24 @@ func TestNewConfigFromFile(t *testing.T) {
 	_, err = os.Stat("../../test/data/configs/valid/.postisto.readenv2.pwd")
 	require.True(os.IsNotExist(err))
 
-	// Failed file/dir loading
-	cfg, err = config.NewConfigFromFile("../../test/data/configs/does-not-exist")
+	// Fail to load non-existing file/dir
+	_, err = config.NewConfigFromFile("../../test/data/configs/does-not-exist")
 	require.EqualError(err, "stat ../../test/data/configs/does-not-exist: no such file or directory")
 
-	// Reading broken file
-	cfg, err = config.NewConfigFromFile("../../test/data/configs/invalid/zero-file.yaml")
+	// Fail to read broken file
+	_, err = config.NewConfigFromFile("../../test/data/configs/invalid/zero-file.yaml")
 	require.EqualError(err, "yaml: control characters are not allowed")
 
-	// Reading unaccessible file
+	// Fail to reading unaccessible file
 	_, _ = os.Create("../../test/data/configs/invalid-unreadable-file/unreadable-file.testfile.yaml")
-	require.Nil(os.Chmod("../../test/data/configs/invalid-unreadable-file/unreadable-file.testfile.yaml", 0000))
+	require.NoError(os.Chmod("../../test/data/configs/invalid-unreadable-file/unreadable-file.testfile.yaml", 0000))
 	cfg, err = config.NewConfigFromFile("../../test/data/configs/invalid-unreadable-file/")
 	require.EqualError(err, "open ../../test/data/configs/invalid-unreadable-file/unreadable-file.testfile.yaml: permission denied")
+
+	// Fail to read unaccessible sub dir
+	require.NoError(os.MkdirAll("../../test/data/configs/invalid-unreadable-dir/dir", 0000))
+	require.NoError(os.Chmod("../../test/data/configs/invalid-unreadable-dir/dir", 0000))
+	_, err = config.NewConfigFromFile("../../test/data/configs/invalid-unreadable-dir/")
+	require.EqualError(err, "open ../../test/data/configs/invalid-unreadable-dir/dir: permission denied")
+	os.Chmod("../../test/data/configs/invalid-unreadable-dir/dir", 0755)
 }
