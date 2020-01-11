@@ -143,18 +143,17 @@ func walkConfigPath(configPath string) ([]string, map[string]string, error) {
 		} else if !stat.IsDir() && (strings.HasSuffix(path, ".yml") || strings.HasSuffix(path, ".yaml")) {
 			configFiles = append(configFiles, path)
 		} else if !stat.IsDir() && strings.HasPrefix(path, ".") && strings.HasSuffix(path, ".pwd") {
+			pathFields := strings.Split(path, ".")
+			if pathFields[len(pathFields)-3] != "postisto" {
+				return nil
+			}
+
 			password, err := ioutil.ReadFile(path)
 			if err != nil {
 				return err
 			}
 
 			if string(password) == "" {
-				return nil
-			}
-
-			pathFields := strings.Split(path, ".")
-
-			if pathFields[len(pathFields)-3] != "postisto" {
 				return nil
 			}
 
