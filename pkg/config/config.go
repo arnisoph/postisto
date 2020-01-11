@@ -123,6 +123,10 @@ func (cfg Config) validate(passwords map[string]string) (*Config, error) {
 	// Filters
 	valCfg.Filters = cfg.Filters
 
+	if len(valCfg.Filters) == 0 {
+		log.Info("Warning: no filters configured")
+	}
+
 	return &valCfg, nil
 }
 

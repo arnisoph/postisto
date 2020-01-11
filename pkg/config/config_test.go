@@ -66,4 +66,8 @@ func TestNewConfigFromFile(t *testing.T) {
 	_, err = config.NewConfigFromFile("../../test/data/configs/invalid-unreadable-dir/")
 	require.NoError(os.Chmod("../../test/data/configs/invalid-unreadable-dir/dir/foo.yaml", 0644))
 	require.EqualError(err, "open ../../test/data/configs/invalid-unreadable-dir/dir/foo.yaml: permission denied")
+
+	// Empty Configs
+	_, err = config.NewConfigFromFile("../../test/data/configs/invalid-empty-configs.yml")
+	require.NoError(err)
 }
