@@ -33,7 +33,7 @@ func main() {
 			&cli.StringFlag{
 				Name:        "log-level",
 				Aliases:     []string{"l"},
-				Usage:       "log level e.g. trace, debug, info or error (WARNING: trace exposes account credentials and mor sensitive data)",
+				Usage:       "log level e.g. trace, debug, info or error (WARNING: trace exposes account credentials and more sensitive data)",
 				Value:       "info",
 				EnvVars:     []string{"LOG_LEVEL"},
 				Destination: &logLevel,
@@ -60,8 +60,7 @@ func main() {
 		},
 	}
 
-	err := app.Run(os.Args)
-	if err != nil {
+	if err := app.Run(os.Args); err != nil {
 		goLog.Fatalln("Failed to start app:", err)
 	}
 }
