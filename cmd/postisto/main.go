@@ -50,7 +50,7 @@ func main() {
 				Name:        "poll-interval",
 				Aliases:     []string{"i"},
 				Usage:       "duration to wait between checking for new messages in input mailbox",
-				Value:       5,
+				Value:       time.Second * 5,
 				EnvVars:     []string{"POLL_INTERVAL"},
 				Destination: &pollInterval,
 			},
@@ -87,25 +87,27 @@ func startApp(c *cli.Context, configPath string, logLevel string, logJSON bool, 
 	}
 
 	type accTuple struct {
-		acc     *config.Account
-		filters *map[string]filter.Filter
+		acc     config.Account
+		filters map[string]filter.Filter
 	}
+
 	var accs []accTuple
-	for name, acc := range cfg.Accounts {
+	for name, _ := range cfg.Accounts {
 		filters, ok := cfg.Filters[name]
 		if !ok {
 			return fmt.Errorf("no filter configuration found for account %v. nothing to do", name)
 		}
 
-		accs = append(accs, accTuple{acc: &acc, filters: &filters})
-		if err := acc.Connection.Connect(); err != nil {
+		accs = append(accs, accTuple{acc: cfg.Accounts[name], filters: filters})
+
+		if err := accs[len(accs)-1].acc.Connection.Connect(); err != nil {
 			return err
 		}
 	}
 
 	for {
 		for _, accTuple := range accs {
-			if err := filter.EvaluateFilterSetsOnMsgs(&accTuple.acc.Connection, *accTuple.acc.InputMailbox, []string{server.SeenFlag, server.FlaggedFlag}, *accTuple.acc.FallbackMailbox, *accTuple.filters); err != nil {
+			if err := filter.EvaluateFilterSetsOnMsgs(&accTuple.acc.Connection, *accTuple.acc.InputMailbox, []string{server.SeenFlag, server.FlaggedFlag}, *accTuple.acc.FallbackMailbox, accTuple.filters); err != nil {
 				return fmt.Errorf("failed to run filter engine: %v", err)
 			}
 		}
