@@ -86,7 +86,8 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 			return nil, err
 		}
 
-		if err := mergo.Merge(cfg, fileCfg, mergo.WithOverride); err != nil {
+		// Merge configs from files
+		if err := mergo.Merge(cfg, fileCfg, mergo.WithOverride, mergo.WithTypeCheck); err != nil {
 			log.Errorw("Failed to merge YAML file", err, "file", file)
 			return nil, err
 		}
@@ -137,6 +138,10 @@ func (cfg Config) validate() (*Config, error) {
 
 	// Filters
 	valCfg.Filters = cfg.Filters
+
+	if len(valCfg.Filters) == 0 {
+		log.Info("Warning: no filters configured")
+	}
 
 	return &valCfg, nil
 }
