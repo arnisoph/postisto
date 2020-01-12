@@ -9,6 +9,7 @@ import (
 	"github.com/arnisoph/postisto/test/integration"
 	"github.com/emersion/go-imap"
 	"github.com/stretchr/testify/require"
+	"io/ioutil"
 	"os"
 	"strings"
 	"testing"
@@ -114,6 +115,7 @@ func TestEvaluateFilterSetsOnMails(t *testing.T) {
 		log.Debug(fmt.Sprintf("Starting TestEvaluateFilterSetsOnMails #%v", testNum+1))
 
 		// Get config
+		require.NoError(ioutil.WriteFile(fmt.Sprintf("../../test/data/configs/valid/local_imap_server/TestEvaluateFilterSetsOnMails-%v/.postisto.local_imap_server.pwd", testNum+1), []byte("test"), 0600))
 		cfg, err := config.NewConfigFromFile(fmt.Sprintf("../../test/data/configs/valid/local_imap_server/TestEvaluateFilterSetsOnMails-%v/", testNum+1))
 		require.NoError(err)
 
@@ -122,7 +124,7 @@ func TestEvaluateFilterSetsOnMails(t *testing.T) {
 
 		// Create new random user
 		acc.Connection.Username = integration.NewStandardAccount(t).Connection.Username
-		acc.Connection.Password = "test"
+		require.Equal("test", cfg.Accounts["local_imap_server"].Connection.Password)
 
 		if strings.Contains(acc.Connection.Server, "gmail") { //TODO tidy up
 			acc.Connection.Username = os.Getenv("POSTISTO_GMAIL_TEST_ACC_USERNAME")
