@@ -1,7 +1,7 @@
 poŝtisto
 ========
 
-|license| |release| |gitter| |build| |docker| |godocs| |gomod| |codecov| |goreport| |codebeat|
+|license| |release| |gitter| |build| |godocs| |gomod| |codecov| |goreport| |codebeat|
 
 .. |license| image:: https://img.shields.io/badge/license-Apache--2.0-blue.svg
     :alt: Apache-2.0-licensed
@@ -16,10 +16,6 @@ poŝtisto
 
 .. |build| image:: https://img.shields.io/github/workflow/status/arnisoph/postisto/main/master
     :alt: GitHub Workflow Status (branch)
-
-.. |docker| image:: https://img.shields.io/docker/pulls/bechtoldt/postisto.svg
-    :alt: Docker image pulls
-    :target: https://hub.docker.com/r/bechtoldt/postisto/
 
 .. |godoc| image:: https://img.shields.io/badge/godoc-reference-blue.svg
     :alt: Go Docs
