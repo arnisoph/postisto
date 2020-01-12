@@ -40,8 +40,9 @@ func TestEvaluateFilterSetsOnMails(t *testing.T) {
 	require := require.New(t)
 
 	type targetStruct struct {
-		name string
-		num  int
+		name  string
+		num   int
+		flags []string
 	}
 	type parserTest struct {
 		fallbackMsgNum int
@@ -109,6 +110,12 @@ func TestEvaluateFilterSetsOnMails(t *testing.T) {
 				{name: "X-Postisto-MailFilterTest-ipsum", num: 1},
 			},
 		},
+		{ // #9
+			mailsToUpload: []int{1, 2, 3},
+			targets: []targetStruct{
+				{name: "Trash", num: 3, flags: []string{imap.SeenFlag}},
+			},
+		},
 	}
 
 	for testNum, test := range tests {
@@ -147,10 +154,10 @@ func TestEvaluateFilterSetsOnMails(t *testing.T) {
 			}
 
 			mailBoxes, err := acc.Connection.List()
-			require.NoError(err)
+			require.NoError(err, debugInfo)
 			for mailboxName, _ := range mailBoxes {
 				if strings.Contains(strings.ToLower(mailboxName), "x-postisto") {
-					require.NoError(acc.Connection.DeleteMailbox(mailboxName))
+					require.NoError(acc.Connection.DeleteMailbox(mailboxName), debugInfo)
 				}
 			}
 		}
@@ -171,12 +178,12 @@ func TestEvaluateFilterSetsOnMails(t *testing.T) {
 			// verify upload
 			uploadedMails, err := acc.Connection.Search(*acc.InputMailbox, nil, withoutFlags)
 
-			require.NoError(err)
+			require.NoError(err, debugInfo)
 			require.Len(uploadedMails, i+1, fmt.Sprintf("This (#%v) or one of the previous mail uploads failed!", i+1), debugInfo)
 
 			if strings.Contains(acc.Connection.Server, "gmail") {
 				//gmail flaggs APPENDed msgs. I don't know yet why.. //TODO
-				require.NoError(acc.Connection.SetFlags(*acc.InputMailbox, uploadedMails, "-FLAGS", []interface{}{server.FlaggedFlag}, false))
+				require.NoError(acc.Connection.SetFlags(*acc.InputMailbox, uploadedMails, "-FLAGS", []interface{}{server.FlaggedFlag}, false), debugInfo)
 			}
 		}
 
@@ -208,16 +215,22 @@ func TestEvaluateFilterSetsOnMails(t *testing.T) {
 			fetchedMails, err := acc.Connection.Search(target.name, nil, nil)
 			require.Nil(err, debugInfo)
 			require.Equal(target.num, len(fetchedMails), "Unexpected num of mails in target %v", target.name, debugInfo)
+
+			if len(target.flags) > 0 {
+				for _, fetchedMail := range fetchedMails {
+					flags, err := acc.Connection.GetFlags(target.name, fetchedMail)
+					require.NoError(err, debugInfo)
+					require.EqualValues(target.flags, flags, debugInfo)
+				}
+			}
 		}
 
-		// Verify fallback mailbox (if != source)
-		if *acc.InputMailbox != *acc.FallbackMailbox {
-			fallBackMsgs, err := acc.Connection.Search(*acc.FallbackMailbox, nil, nil)
-			require.Nil(err, debugInfo)
-			require.Equal(test.fallbackMsgNum, len(fallBackMsgs), debugInfo)
-		}
+		// Verify fallback mailbox
+		fallBackMsgs, err := acc.Connection.Search(*acc.FallbackMailbox, nil, nil)
+		require.Nil(err, debugInfo)
+		require.Equal(test.fallbackMsgNum, len(fallBackMsgs), debugInfo)
 
 		// Disconnect - Hoooraaay!
-		require.Nil(acc.Connection.Disconnect())
+		require.Nil(acc.Connection.Disconnect(), debugInfo)
 	}
 }

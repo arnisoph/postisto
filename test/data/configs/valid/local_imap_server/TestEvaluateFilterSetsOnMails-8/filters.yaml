@@ -9,7 +9,7 @@ filters:
 #        rules:
 #          - and:
 #            - from:
-#              - @youth4work.com
+#              - "@youth4work.com"
     test_mail16:
       commands:
         move: X-Postisto-MailFilterTest-lorem

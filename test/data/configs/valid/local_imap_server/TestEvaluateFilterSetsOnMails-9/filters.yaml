@@ -1,0 +1,13 @@
+# vim: ts=2 sw=2 et
+
+filters:
+  local_imap_server:
+      main:
+        commands:
+          move: Trash
+          replace_all_flags:
+            - '\Seen'
+        rules:
+          - and:
+            - from:
+              - "@youth4work.com"
