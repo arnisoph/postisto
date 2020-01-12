@@ -10,9 +10,9 @@ build = GOOS=$(1) GOARCH=$(2) GOARM=$(4) go build -ldflags "-X=main.build=$(buil
 tar = cd build && tar -cvzf $(appname)-$(artifact_version).$(1)-$(2).tar.gz $(appname)$(3) && rm $(appname)$(3)
 zip = cd build && zip $(appname)-$(artifact_version).$(1)-$(2).zip $(appname)$(3) && rm $(appname)$(3)
 
-all: build test
+all: build test install
 
-.PHONY: build test start-test-container test-without-docker go.test clean fmt go.mod vendor-update vendor docker-build release github-release docker-release
+.PHONY: build test start-test-container test-without-docker go.test clean fmt go.mod vendor-update vendor docker-build release github-release docker-release install
 
 build: clean docker-build windows darwin linux
 
@@ -32,6 +32,9 @@ clean:
 	rm -rf postisto
 	docker kill dovecot 2>/dev/null || true
 	docker rm dovecot 2>/dev/null || true
+
+install: build/$(appname)
+	cp build/$(appname) $(GOBIN)/postisto
 
 fmt:
 	go fmt ./...
