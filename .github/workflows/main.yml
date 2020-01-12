@@ -44,6 +44,7 @@ jobs:
 
       - name: setup integration env
         run: |
+          set +e
           make start-test-container
 
       - name: go test
