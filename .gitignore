@@ -1,3 +1,4 @@
+*.pwd
 *.tmp
 /postisto
 coverage.txt

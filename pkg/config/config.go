@@ -29,14 +29,10 @@ func NewConfig() *Config {
 	return new(Config)
 }
 
-func NewConfigWithDefaults() (*Config, error) {
-	cfg := NewConfig()
-	return cfg.validate()
-}
-
 func NewConfigFromFile(configPath string) (*Config, error) {
 	cfg := NewConfig()
 	var configFiles []string
+	passwords := map[string]string{}
 
 	stat, err := os.Stat(configPath)
 	if err != nil {
@@ -45,24 +41,7 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 	}
 
 	if stat.IsDir() {
-		err := filepath.Walk(configPath,
-			func(path string, info os.FileInfo, err error) error {
-				if err != nil {
-					log.Errorw("Failed to load path", err, "path", path)
-					return err
-				}
-
-				if stat, err := os.Stat(path); err != nil {
-					log.Errorw("Failed to load path", err, "path", path)
-					return err
-				} else if !stat.IsDir() && (strings.HasSuffix(path, ".yml") || strings.HasSuffix(path, ".yaml")) {
-					configFiles = append(configFiles, path)
-				}
-
-				return nil
-			})
-
-		if err != nil {
+		if configFiles, passwords, err = walkConfigPath(configPath); err != nil {
 			log.Errorw("Failed to parse dir", err, "configPath", configPath)
 			return nil, err
 		}
@@ -79,6 +58,7 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 			return nil, err
 		}
 
+		// YAML to Config struct
 		err = yaml.Unmarshal(yamlFile, &fileCfg)
 
 		if err != nil {
@@ -93,10 +73,10 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 		}
 	}
 
-	return cfg.validate()
+	return cfg.validate(passwords)
 }
 
-func (cfg Config) validate() (*Config, error) {
+func (cfg Config) validate(passwords map[string]string) (*Config, error) {
 	valCfg := Config{
 		Accounts: map[string]Account{},
 		Filters:  map[string]map[string]filter.Filter{},
@@ -122,6 +102,10 @@ func (cfg Config) validate() (*Config, error) {
 			return nil, fmt.Errorf("server not configured")
 		}
 
+		if filePwd, ok := passwords[accName]; newAcc.Connection.Password == "" && ok {
+			newAcc.Connection.Password = strings.TrimSpace(filePwd)
+		}
+
 		// Input
 		if newAcc.InputMailbox == nil || *newAcc.InputMailbox == "" {
 			newAcc.InputMailbox = new(string)
@@ -144,4 +128,46 @@ func (cfg Config) validate() (*Config, error) {
 	}
 
 	return &valCfg, nil
+}
+
+func walkConfigPath(configPath string) ([]string, map[string]string, error) {
+
+	var configFiles []string
+	passwords := map[string]string{}
+
+	err := filepath.Walk(configPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			log.Errorw("Failed to load path", err, "path", path)
+			return err
+		}
+
+		if stat, err := os.Stat(path); err != nil {
+			log.Errorw("Failed to load path", err, "path", path)
+			return err
+		} else if !stat.IsDir() && (strings.HasSuffix(path, ".yml") || strings.HasSuffix(path, ".yaml")) {
+			configFiles = append(configFiles, path)
+		} else if !stat.IsDir() && strings.HasPrefix(path, ".") && strings.HasSuffix(path, ".pwd") {
+			pathFields := strings.Split(path, ".")
+			if pathFields[len(pathFields)-3] != "postisto" {
+				return nil
+			}
+
+			password, err := ioutil.ReadFile(path)
+			if err != nil {
+				return err
+			}
+
+			if string(password) == "" {
+				return nil
+			}
+
+			passwords[pathFields[len(pathFields)-2]] = string(password)
+
+			return os.Remove(path)
+		}
+
+		return nil
+	})
+
+	return configFiles, passwords, err
 }
