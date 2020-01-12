@@ -36,6 +36,9 @@ clean:
 install: build/$(appname)
 	cp build/$(appname) $(GOBIN)/postisto
 
+uninstall:
+	rm -f $(GOBIN)/postisto
+
 fmt:
 	go fmt ./...
 
