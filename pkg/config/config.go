@@ -33,24 +33,15 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 	cfg := NewConfig()
 	var configFiles []string
 	passwords := map[string]string{}
+	var err error
 
 	log.Debugw("Starting to parse config", "configPath", configPath)
 
-	stat, err := os.Stat(configPath)
+	log.Debugw("configPath is a directory. Starting to recursively walk through the directory tree.", "configPath", configPath)
+	configFiles, passwords, err = walkConfigPath(configPath)
 	if err != nil {
-		log.Errorw("Failed to check path", err, "configPath", configPath)
+		log.Errorw("Failed to parse dir", err, "configPath", configPath)
 		return nil, err
-	}
-
-	if stat.IsDir() {
-		log.Debugw("configPath is a directory. Starting to recursively walk through the directory tree.", "configPath", configPath)
-		if configFiles, passwords, err = walkConfigPath(configPath); err != nil {
-			log.Errorw("Failed to parse dir", err, "configPath", configPath)
-			return nil, err
-		}
-	} else {
-		log.Debugw("configPath is just a single file", "configPath", configPath)
-		configFiles = append(configFiles, configPath)
 	}
 
 	for _, file := range configFiles {
@@ -82,7 +73,7 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 		return nil, err
 	}
 
-	log.Debugw("Configuration successfully loaded & validated","configPath", configPath)
+	log.Debugw("Configuration successfully loaded & validated", "configPath", configPath)
 	return newCfg, nil
 }
 
@@ -108,11 +99,11 @@ func (cfg Config) validate(passwords map[string]string) (*Config, error) {
 			FallbackMailbox: acc.FallbackMailbox,
 		}
 		// Connection
-		if acc.Connection.Server == "" {
+		if strings.TrimSpace(acc.Connection.Server) == "" {
 			return nil, fmt.Errorf("server not configured")
 		}
 
-		if filePwd, ok := passwords[accName]; newAcc.Connection.Password == "" && ok {
+		if filePwd, ok := passwords[accName]; ok {
 			log.Debugw("Setting pwd for an account from previously loaded pwd file", "account", accName)
 			newAcc.Connection.Password = strings.TrimSpace(filePwd)
 		}
@@ -152,16 +143,15 @@ func walkConfigPath(configPath string) ([]string, map[string]string, error) {
 			return err
 		}
 
+		log.Debugw("Checking a file", "path", path)
+
 		if stat, err := os.Stat(path); err != nil {
 			log.Errorw("Failed to load path", err, "path", path)
 			return err
 		} else if !stat.IsDir() && (strings.HasSuffix(path, ".yml") || strings.HasSuffix(path, ".yaml")) {
 			configFiles = append(configFiles, path)
-		} else if !stat.IsDir() && strings.HasPrefix(path, ".") && strings.HasSuffix(path, ".pwd") {
+		} else if !stat.IsDir() && strings.HasPrefix(filepath.Base(path), ".postisto") && strings.HasSuffix(path, ".pwd") {
 			pathFields := strings.Split(path, ".")
-			if pathFields[len(pathFields)-3] != "postisto" {
-				return nil
-			}
 
 			log.Debugw("Starting to read postisto pwd file", "path", path)
 
