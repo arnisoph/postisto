@@ -30,7 +30,8 @@ test-without-docker:
 clean:
 	rm -rf build/*
 	rm -rf postisto
-	docker kill dovecot; docker rm dovecot || true
+	docker kill dovecot 2>/dev/null || true
+	docker rm dovecot 2>/dev/null || true
 
 fmt:
 	go fmt ./...
