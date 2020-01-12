@@ -22,7 +22,7 @@ build/$(appname): $(sources)
 test: start-test-container go.test
 
 start-test-container:
-	docker exec dovecot sh || docker run -d --name dovecot -p 10143:143 -p 10993:993 -p 6379:6379 bechtoldt/tabellarius_tests-docker
+	docker exec dovecot true &>/dev/null || docker run -d --name dovecot -p 10143:143 -p 10993:993 -p 6379:6379 bechtoldt/tabellarius_tests-docker
 
 test-without-docker:
 	go test -race -coverprofile=coverage.txt -covermode=atomic ./...

@@ -131,6 +131,8 @@ func (conn *Connection) DeleteMsgs(mailbox string, uids []uint32, expunge bool) 
 
 func (conn *Connection) SetFlags(mailbox string, uids []uint32, flagOp string, flags []interface{}, expunge bool) error {
 
+	log.Debugw("Starting to set flags on mails", "mailbox", mailbox, "uids", uids, "flagOp", flagOp, "flags", flags, "expunge", expunge)
+
 	// Select mailbox
 	if _, err := conn.Select(mailbox, false, false); err != nil {
 		log.Errorw("Failed to open mailbox to set message flags", err, "mailbox", mailbox)
@@ -162,6 +164,8 @@ func (conn *Connection) SetFlags(mailbox string, uids []uint32, flagOp string, f
 func (conn *Connection) GetFlags(mailbox string, uid uint32) ([]string, error) {
 	var flags []string
 	var err error
+
+	log.Debugw("Starting to get flags from a mail", "mailbox", mailbox, "uid", uid)
 
 	// Select mailbox
 	if _, err := conn.Select(mailbox, true, false); err != nil {
@@ -272,6 +276,8 @@ func (conn *Connection) List() (map[string]imapUtil.MailboxInfo, error) {
 
 func (conn *Connection) Move(uids []uint32, from string, to string) error {
 	var err error
+
+	log.Debugw("Starting to move mails to another mailbox", "source", from, "destination", to, "uids", uids)
 
 	seqset := imapUtil.SeqSet{}
 	for _, uid := range uids {

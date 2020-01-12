@@ -74,6 +74,8 @@ func startApp(c *cli.Context, configPath string, logLevel string, logJSON bool, 
 		return err
 	}
 
+	log.Info("Welcome, thanks for using poŝtisto! If you experience any problems or questions please raise an issue on Github (https://github.com/arnisoph/postisto).")
+
 	var cfg *config.Config
 	var err error
 
@@ -103,11 +105,13 @@ func startApp(c *cli.Context, configPath string, logLevel string, logJSON bool, 
 
 		accs = append(accs, accTuple{acc: cfg.Accounts[name], filters: filters})
 
+		log.Debugw("Connecting to IMAP server now", "account", name, "server", accs[len(accs)-1].acc.Connection.Server)
 		if err := accs[len(accs)-1].acc.Connection.Connect(); err != nil {
 			return err
 		}
 	}
 
+	log.Info("Entering continuously running mail search & filter loop. Waiting for mails...")
 	for {
 		for _, accTuple := range accs {
 			if err := filter.EvaluateFilterSetsOnMsgs(&accTuple.acc.Connection, *accTuple.acc.InputMailbox, []string{server.SeenFlag, server.FlaggedFlag}, *accTuple.acc.FallbackMailbox, accTuple.filters); err != nil {
