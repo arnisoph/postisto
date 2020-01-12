@@ -34,6 +34,8 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 	var configFiles []string
 	passwords := map[string]string{}
 
+	log.Debugw("Starting to parse config", "configPath", configPath)
+
 	stat, err := os.Stat(configPath)
 	if err != nil {
 		log.Errorw("Failed to check path", err, "configPath", configPath)
@@ -41,11 +43,13 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 	}
 
 	if stat.IsDir() {
+		log.Debugw("configPath is a directory. Starting to recursively walk through the directory tree.", "configPath", configPath)
 		if configFiles, passwords, err = walkConfigPath(configPath); err != nil {
 			log.Errorw("Failed to parse dir", err, "configPath", configPath)
 			return nil, err
 		}
 	} else {
+		log.Debugw("configPath is just a single file", "configPath", configPath)
 		configFiles = append(configFiles, configPath)
 	}
 
@@ -73,7 +77,13 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 		}
 	}
 
-	return cfg.validate(passwords)
+	newCfg, err := cfg.validate(passwords)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Debugw("Configuration successfully loaded & validated","configPath", configPath)
+	return newCfg, nil
 }
 
 func (cfg Config) validate(passwords map[string]string) (*Config, error) {
@@ -103,6 +113,7 @@ func (cfg Config) validate(passwords map[string]string) (*Config, error) {
 		}
 
 		if filePwd, ok := passwords[accName]; newAcc.Connection.Password == "" && ok {
+			log.Debugw("Setting pwd for an account from previously loaded pwd file", "account", accName)
 			newAcc.Connection.Password = strings.TrimSpace(filePwd)
 		}
 
@@ -152,17 +163,20 @@ func walkConfigPath(configPath string) ([]string, map[string]string, error) {
 				return nil
 			}
 
+			log.Debugw("Starting to read postisto pwd file", "path", path)
+
 			password, err := ioutil.ReadFile(path)
 			if err != nil {
 				return err
 			}
 
 			if string(password) == "" {
-				return nil
+				return fmt.Errorf("postisto pwd file is empty")
 			}
 
 			passwords[pathFields[len(pathFields)-2]] = string(password)
 
+			log.Infow("Successfully read postisto pwd file. Deleting it now to prevent others to obtain the plaintext password!", "path", path)
 			return os.Remove(path)
 		}
 
