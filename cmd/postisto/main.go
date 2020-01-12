@@ -74,6 +74,8 @@ func startApp(c *cli.Context, configPath string, logLevel string, logJSON bool, 
 		return err
 	}
 
+	log.Info("Welcome, thanks for using poŝtisto! If you experience any problems or questions please raise an issue on Github (https://github.com/arnisoph/postisto).")
+
 	var cfg *config.Config
 	var err error
 
