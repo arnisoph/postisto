@@ -21,7 +21,7 @@ poŝtisto
     :alt: Docker image pulls
     :target: https://hub.docker.com/r/bechtoldt/postisto/
 
-.. |godoc| image:: https://godoc.org/github.com/arnisoph/postisto?status.svg
+.. |godoc| image:: https://img.shields.io/badge/godoc-reference-blue.svg
     :alt: Go Docs
     :target: https://godoc.org/github.com/arnisoph/postisto
 
