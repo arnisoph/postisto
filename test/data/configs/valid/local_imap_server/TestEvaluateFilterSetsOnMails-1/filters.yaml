@@ -4,7 +4,28 @@ filters:
   local_imap_server:
     main:
       commands:
+        move: MyTarget-main
+      rules:
+        - and:
+          - from:
+            - "@youth4work.com"
+    10_main:
+      commands:
+        move: MyTarget-10_main
+      rules:
+        - and:
+          - from:
+            - "@youth4work.com"
+    000_main:
+      commands:
         move: MyTarget
+      rules:
+        - and:
+          - from:
+            - "@youth4work.com"
+    010_main:
+      commands:
+        move: MyTarget-010_main
       rules:
         - and:
           - from:

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/arnisoph/postisto/pkg/log"
 	"github.com/arnisoph/postisto/pkg/server"
+	"sort"
 )
 
 //func (filterSet FilterSet) Names() []string {
@@ -44,7 +45,17 @@ func EvaluateFilterSetsOnMsgs(srv *server.Connection, inputMailbox string, input
 		log.Infow("Found new message in input mailbox to sort", "uid", msg.RawMessage.Uid, "message_id", msg.RawMessage.Envelope.MessageId)
 
 		log.Debugw("Starting to filter message", "uid", msg.RawMessage.Uid, "message_id", msg.RawMessage.Envelope.MessageId)
-		for filterName, filterConfig := range filterSet {
+
+		// sort filter map by key
+		keys := make([]string, 0, len(filterSet))
+		for k := range filterSet {
+			keys = append(keys, k)
+		}
+		sort.Strings(keys)
+
+		for _, filterName := range keys {
+			filterConfig := filterSet[filterName]
+
 			log.Debugw(fmt.Sprintf("Evaluate filter %q against message headers", filterName), "uid", msg.RawMessage.Uid, "ruleSet", filterConfig.RuleSet)
 			matched, err = ParseRuleSet(filterConfig.RuleSet, msg.Headers)
 
