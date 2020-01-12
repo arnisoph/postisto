@@ -1,8 +1,9 @@
 *.pwd
 *.tmp
 /postisto
-coverage.txt
+build/
 config/**/*.yaml
 config/**/*.yml
+coverage.txt
 test/data/configs/invalid-unreadable-file/
 vendor/

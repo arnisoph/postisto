@@ -14,7 +14,7 @@ all: build test
 
 .PHONY: build test start-test-container test-without-docker go.test clean fmt go.mod vendor-update vendor docker-build release github-release docker-release
 
-build: clean windows darwin linux docker-build
+build: clean docker-build windows darwin linux
 
 build/$(appname): $(sources)
 	go build -ldflags "-X=main.build=$(build_version)" -v -o build/$(appname) cmd/$(appname)/main.go
