@@ -42,7 +42,7 @@ func TestNewConfigFromFile(t *testing.T) {
 
 	// Failed file/dir loading
 	cfg, err = config.NewConfigFromFile("../../test/data/configs/does-not-exist")
-	require.EqualError(err, "stat ../../test/data/configs/does-not-exist: no such file or directory")
+	require.EqualError(err, "lstat ../../test/data/configs/does-not-exist: no such file or directory")
 
 	// Fail to read broken file
 	_, err = config.NewConfigFromFile("../../test/data/configs/invalid/zero-file.yaml")
