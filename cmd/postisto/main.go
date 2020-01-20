@@ -93,18 +93,19 @@ func startApp(c *cli.Context, configPath string, logLevel string, logJSON bool, 
 
 	type accInfo struct {
 		name    string
-		acc     config.Account
+		acc     *config.Account
 		filters map[string]filter.Filter
 	}
 
-	var accs []accInfo
+	var accs []*accInfo
 	for name, _ := range cfg.Accounts {
 		filters, ok := cfg.Filters[name]
 		if !ok {
 			return fmt.Errorf("no filter configuration found for account %v. nothing to do", name)
 		}
 
-		accs = append(accs, accInfo{name: name, acc: cfg.Accounts[name], filters: filters})
+		acc := cfg.Accounts[name]
+		accs = append(accs, &accInfo{name: name, acc: &acc, filters: filters})
 	}
 
 	log.Info("Entering continuously running mail search & filter loop. Waiting for mails...")
