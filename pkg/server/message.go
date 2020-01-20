@@ -2,7 +2,9 @@ package server
 
 import (
 	"fmt"
+	"github.com/arnisoph/postisto/pkg/log"
 	imapUtil "github.com/emersion/go-imap"
+	"github.com/emersion/go-message"
 	mailUtil "github.com/emersion/go-message/mail"
 	"strings"
 )
@@ -33,8 +35,13 @@ func parseMessageHeaders(rawMessage *imapUtil.Message) (MessageHeaders, error) {
 	}
 
 	mr, err := mailUtil.CreateReader(msgBody)
-	if err != nil {
+
+	if err != nil && !message.IsUnknownCharset(err) {
+		log.Errorw("Failed to create message reader", err, "message_id", rawMessage.Envelope.MessageId)
 		return headers, err
+	} else {
+		// The error is not an error because the charset could be determined automatically. Weird logic...
+		err = nil
 	}
 
 	// Address Lists in headers

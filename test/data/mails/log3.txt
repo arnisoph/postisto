@@ -7,7 +7,7 @@ Received: from mx2.main-hosting.eu (mx-mailgw [10.0.25.254])
 	by mail-storage-2.main-hosting.eu (Postfix) with ESMTP id 222A3209606C
 	for <shubham@cyberzonec.in>; Tue, 23 Jun 2015 18:53:05 +0000 (UTC)
 X-Greylist: delayed 593 seconds by postgrey-1.34 at mx-mailgw; Tue, 23 Jun 2015 18:53:04 UTC
-Received-SPF: Pass (sender SPF authorized) identity=mailfrom; client-ip=72.52.206.246; helo=mail.jagbros.in; envelope-from=rachit.jain@youth4work.com; receiver=shubham@cyberzonec.in 
+Received-SPF: Pass (sender SPF authorized) identity=mailfrom; client-ip=72.52.206.246; helo=mail.jagbros.in; envelope-from=rachit.jain@youth4work.com; receiver=shubham@cyberzonec.in
 Received: from mail.jagbros.in (unknown [72.52.206.246])
 	by mx2.main-hosting.eu ([Main-Hosting.eu Mail System]) with ESMTP id B6E6025EC70
 	for <shubham@cyberzonec.in>; Tue, 23 Jun 2015 18:53:04 +0000 (UTC)
@@ -17,7 +17,7 @@ From: "Rachit" <rachit.jain@youth4work.com>
 To: shubham@cyberzonec.in
 Date: 24 Jun 2015 00:13:02 +0530
 Subject: Contact Ranked talent for hire
-Content-Type: text/html; charset=us-ascii
+Content-Type: text/html; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Message-ID:
  <58F30A36A7C341788B512ACD5B1428FD.MAI@jagbros.in>
