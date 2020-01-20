@@ -160,7 +160,7 @@ The *pwd file* must match ``.postisto.<YOUR-ACCOUNT-NAME-FROM-CONFIG-FILE>.pwd``
 Filters/ Rule Sets
 ''''''''''''''''''
 
-The config/ directory in the source code repository contains some useful examples. You can also find more advanced examples in the `tests <https://github.com/arnisoph/postisto/tree/master/test/data/configs/valid>`_.
+The `config/ directory <https://github.com/arnisoph/postisto/tree/master/config>`_ in the source code repository contains some useful examples. You can also find more advanced examples in the `tests <https://github.com/arnisoph/postisto/tree/master/test/data/configs/valid>`_.
 
 
 .. |license| image:: https://img.shields.io/badge/license-Apache--2.0-blue.svg
