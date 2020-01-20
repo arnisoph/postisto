@@ -19,6 +19,14 @@ It became necessary because of missing features in the ManageSieve protocol and 
 What it actually does is to parse your YAML config files, sets up an IMAP connection pool to one or more IMAP servers, checks whether new e-mails match to your rule sets and then move it to your desired folder (or flags them). It usually doesn't download the full e-mail and _never_ changes the contents of an e-mail.
 
 
+Demo
+----
+
+.. image:: https://asciinema.org/a/294922.svg
+    :alt: Basic Demo
+    :target: https://asciinema.org/a/294922
+
+
 Contributing
 ------------
 
@@ -46,14 +54,14 @@ Install from Source
 You want to patch the source code and use your self-built binary? Easy!
 
 .. image:: https://asciinema.org/a/294920.svg
-    :alt: make test
+    :alt: Installing from source
     :target: https://asciinema.org/a/294920
 
 
 Testing
 -------
 
-Integration tests require a running Docker daemon with Internet connection. The `container image <https://hub.docker.com/r/bechtoldt/tabellarius_tests-docker/>`_ that is beeing downloaded contains Dovecot and Redis.
+You need a running Docker daemon with Internet connection. The `container image <https://hub.docker.com/r/bechtoldt/tabellarius_tests-docker/>`_ that is beeing downloaded contains Dovecot and Redis.
 
 Start the tests:
 
