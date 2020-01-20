@@ -91,30 +91,26 @@ func startApp(c *cli.Context, configPath string, logLevel string, logJSON bool, 
 		return fmt.Errorf("no filter configuration found. nothing to do")
 	}
 
-	type accTuple struct {
+	type accInfo struct {
+		name    string
 		acc     config.Account
 		filters map[string]filter.Filter
 	}
 
-	var accs []accTuple
+	var accs []accInfo
 	for name, _ := range cfg.Accounts {
 		filters, ok := cfg.Filters[name]
 		if !ok {
 			return fmt.Errorf("no filter configuration found for account %v. nothing to do", name)
 		}
 
-		accs = append(accs, accTuple{acc: cfg.Accounts[name], filters: filters})
-
-		log.Debugw("Connecting to IMAP server now", "account", name, "server", accs[len(accs)-1].acc.Connection.Server)
-		if err := accs[len(accs)-1].acc.Connection.Connect(); err != nil {
-			return err
-		}
+		accs = append(accs, accInfo{name: name, acc: cfg.Accounts[name], filters: filters})
 	}
 
 	log.Info("Entering continuously running mail search & filter loop. Waiting for mails...")
 	for {
-		for _, accTuple := range accs {
-			if err := filter.EvaluateFilterSetsOnMsgs(&accTuple.acc.Connection, *accTuple.acc.InputMailbox, []string{server.SeenFlag, server.FlaggedFlag}, *accTuple.acc.FallbackMailbox, accTuple.filters); err != nil {
+		for _, accInfo := range accs {
+			if err := filter.EvaluateFilterSetsOnMsgs(&accInfo.acc.Connection, *accInfo.acc.InputMailbox, []string{server.SeenFlag, server.FlaggedFlag}, *accInfo.acc.FallbackMailbox, accInfo.filters); err != nil {
 				return fmt.Errorf("failed to run filter engine: %v", err)
 			}
 		}

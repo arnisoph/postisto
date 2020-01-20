@@ -38,6 +38,9 @@ func TestConnect(t *testing.T) {
 	require.NotNil(acc)
 	require.NoError(acc.Connection.Connect())
 
+	require.NoError(acc.Connection.Disconnect())
+	require.NoError(acc.Connection.DeleteMsgs("INBOX", []uint32{42}, false))
+
 	acc.Connection.Password = "wrongpass"
 	require.EqualError(acc.Connection.Connect(), "Authentication failed.")
 
