@@ -11,7 +11,7 @@ poŝtisto
 General
 -------
 
-poŝtisto is the successor of Tabellarius, an IMAP client that sorts your mailboxes based on an extensive configuration language.
+poŝtisto is the successor of `Tabellarius <https://github.com/arnisoph/tabellarius>`_, an IMAP client that sorts your mailboxes based on an extensive configuration language.
 Unlike other mail filters it uses the `same IMAP connection accross multiple IMAP commands <https://github.com/lefcha/imapfilter>`_ and `simple markup language <http://www.rfcreader.com/#rfc5228>`_ instead of a complex scripting language though it isn't that feature-rich as the well-known Sieve standard.
 
 It became necessary because of missing features in the ManageSieve protocol and service providers that don't even provide a ManageSieve service or any *more advanced* filter techniques.
