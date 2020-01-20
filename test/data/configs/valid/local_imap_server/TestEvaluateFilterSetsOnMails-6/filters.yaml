@@ -7,8 +7,15 @@ filters:
         move: MyTarget
       rules:
         - and:
+          - completly:
+            - unrelated :P
+        - or:
           - from:
-            - "@youth4work.com"
+            - bar
+            - '@youth4work.com'
+            - bar
+          - subject:
+            - trash
     test_mail16:
       commands:
         move: MailFilterTest-foo

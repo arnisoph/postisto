@@ -8,6 +8,9 @@ filters:
      rules:
        - and:
          - from:
+           - foo
+           - bar
+           # Random Comment Line
            - "@youth4work.com"
    test_unicode_from:
      commands:
