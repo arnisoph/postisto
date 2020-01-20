@@ -35,9 +35,14 @@ func TestConnect(t *testing.T) {
 	var acc config.Account
 
 	acc = *accs["starttls"]
+
+	// Test re-login of a completly new account
+	require.NoError(acc.Connection.DeleteMsgs("INBOX", []uint32{42}, false))
+
 	require.NotNil(acc)
 	require.NoError(acc.Connection.Connect())
 
+	// Test normal re-login
 	require.NoError(acc.Connection.Disconnect())
 	require.NoError(acc.Connection.DeleteMsgs("INBOX", []uint32{42}, false))
 
