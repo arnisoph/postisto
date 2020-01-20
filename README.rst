@@ -17,7 +17,7 @@ poŝtisto
 .. |build| image:: https://img.shields.io/github/workflow/status/arnisoph/postisto/main/master
     :alt: GitHub Workflow Status (branch)
 
-.. |godoc| image:: https://img.shields.io/badge/godoc-reference-blue.svg
+.. |godocs| image:: https://img.shields.io/badge/godoc-reference-blue.svg
     :alt: Go Docs
     :target: https://godoc.org/github.com/arnisoph/postisto
 
