@@ -24,9 +24,12 @@ type Connection struct {
 	imapClient *imapClientPkg.Client
 }
 
+// Manually connect to the IMAP server. Usually the session to the IMAP server is re-established automatically if we're disconnected or logged out.
 func (conn *Connection) Connect() error {
 	var imapClient *imapClientPkg.Client
 	var err error
+
+	log.Debugw("Connecting to IMAP server now", "username", conn.Username, "server", conn.Server)
 
 	// validate config
 	if err := conn.validate(); err != nil {
