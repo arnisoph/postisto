@@ -11,9 +11,12 @@ poŝtisto
 General
 -------
 
-poŝtisto is the successor of Tabellarius, an IMAP client that sorts your mailboxes based on a extensive configuration language. Unlike other mail filters it uses the `same IMAP connection accross multiple IMAP commands <https://github.com/lefcha/imapfilter>`_ and `simple markup language <http://www.rfcreader.com/#rfc5228>`_ instead of a complex scripting language though it isn't that feature-rich as the well-known Sieve standard. It became necessary because of missing features in the ManageSieve protocol and service providers that don't even provide a ManageSieve service or any other *human-friendly* filter techniques.
+poŝtisto is the successor of Tabellarius, an IMAP client that sorts your mailboxes based on an extensive configuration language.
+Unlike other mail filters it uses the `same IMAP connection accross multiple IMAP commands <https://github.com/lefcha/imapfilter>`_ and `simple markup language <http://www.rfcreader.com/#rfc5228>`_ instead of a complex scripting language though it isn't that feature-rich as the well-known Sieve standard.
 
-What it actually does is to parse a directory structure containing YAML config files, sets up an IMAP connection pool to one or more IMAP servers, checks whether a subset of e-mails matches to your defined rule sets and apply IMAP commands like copy or move to them. It usually doesn't download the full e-mail and _never_ changes the contents of an e-mail.
+It became necessary because of missing features in the ManageSieve protocol and service providers that don't even provide a ManageSieve service or any *more advanced* filter techniques.
+
+What it actually does is to parse your YAML config files, sets up an IMAP connection pool to one or more IMAP servers, checks whether new e-mails match to your rule sets and then move it to your desired folder (or flags them). It usually doesn't download the full e-mail and _never_ changes the contents of an e-mail.
 
 
 Contributing
@@ -29,13 +32,16 @@ In general:
 
 But it’s better to `file an issue <https://github.com/arnisoph/postisto/issues/new>`_ with your idea first.
 
-Download from Github
---------------------
+Installing
+----------
 
-You can download `pre-built binaries <https://github.com/arnisoph/postisto/releases>` and `Docker images <https://github.com/arnisoph/postisto/packages>` from the Github project page.
+Download from Github
+''''''''''''''''''''
+
+You can download `pre-built binaries <https://github.com/arnisoph/postisto/releases>`_ and `Docker images <https://github.com/arnisoph/postisto/packages>`_ from the Github project page.
 
 Install from Source
--------------------
+'''''''''''''''''''
 
 You want to patch the source code and use your self-built binary? Easy!
 
@@ -154,7 +160,7 @@ The *pwd file* must match ``.postisto.<YOUR-ACCOUNT-NAME-FROM-CONFIG-FILE>.pwd``
 Filters/ Rule Sets
 ''''''''''''''''''
 
-The config/ directory in the source code repository contains some useful examples. You can also find more advanced examples in the `tests <https://github.com/arnisoph/postisto/tree/master/test/data/configs/valid>`.
+The config/ directory in the source code repository contains some useful examples. You can also find more advanced examples in the `tests <https://github.com/arnisoph/postisto/tree/master/test/data/configs/valid>`_.
 
 
 .. |license| image:: https://img.shields.io/badge/license-Apache--2.0-blue.svg
