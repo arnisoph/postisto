@@ -9,6 +9,12 @@ accounts:
       imaps: true
 filters:
   gmail:
+    mailing-lists:
+      commands:
+        move: Lists
+      rules:
+        - or:
+          - list-id: '.*'
     shops:
       commands:
         move: Shops
