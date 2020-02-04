@@ -9,6 +9,12 @@ accounts:
       imaps: true
 filters:
   gmail:
+    calendar-notifications:
+      commands:
+        move: Tash
+      rules:
+        - or:
+          - subject: '^(Vorläufig: |Tentative: )?(Accepted: |Angenommen: |Aceptado: |Akzeptiert: |Declined: )?(Updated )?Invitation:.*'
     mailing-lists:
       commands:
         move: Lists
