@@ -4,7 +4,7 @@ sources = $(shell find . -type f -name '*.go' -not -path "./vendor/*")
 artifact_version = $(shell cat VERSION | tr -d '\n')
 timestamp = $(shell date +%Y%m%d-%H%M%S)
 gitrev = $(shell git rev-parse --short HEAD)
-build_version = $(artifact_version)-$(timestamp)-$(gitrev)
+build_version = $(artifact_version)-$(timestamp)+$(gitrev)
 
 build = GOOS=$(1) GOARCH=$(2) GOARM=$(4) go build -trimpath -ldflags "-X=main.build=$(build_version)" -o build/$(appname)$(3) cmd/$(appname)/main.go
 tar = cd build && tar -cvzf $(appname)-$(artifact_version).$(1)-$(2).tar.gz $(appname)$(3) && rm $(appname)$(3)
@@ -48,11 +48,11 @@ vendor: go.mod
 
 docker-build:
 	$(call build,linux,amd64,)
-	docker build -t docker.pkg.github.com/arnisoph/postisto/linux:$(artifact_version) .
+	docker build -t docker.pkg.github.com/arnisoph/postisto/linux:$(artifact_version)-$(gitrev) .
 	make clean
 
 docker-release: docker-build
-	docker push docker.pkg.github.com/arnisoph/postisto/linux:$(artifact_version)
+	docker push docker.pkg.github.com/arnisoph/postisto/linux:$(artifact_version)-$(gitrev)
 
 release: build docker-release
 
