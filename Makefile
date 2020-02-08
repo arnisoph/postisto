@@ -11,7 +11,7 @@ zip = cd build && zip $(appname)-$(artifact_version).$(1)-$(2).zip $(appname)$(3
 
 all: build test install
 
-.PHONY: build test go.test clean fmt go.mod vendor-update vendor docker-build release github-release docker-release install
+.PHONY: build test go.test clean fmt go.mod vendor-update vendor docker-build release github-release docker-release install version
 
 build: clean docker-build windows darwin linux
 
@@ -55,6 +55,8 @@ docker-release: docker-build
 
 release: build docker-release
 
+version:
+	@echo $(artifact_version)
 
 ##### LINUX #####
 linux: build/$(appname)-$(artifact_version).linux-amd64.tar.gz build/$(appname)-$(artifact_version).linux-arm7.tar.gz
