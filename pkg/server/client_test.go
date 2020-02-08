@@ -15,20 +15,23 @@ func TestConnect(t *testing.T) {
 	badcacert := "../../test/data/certs/bad-ca.pem"
 	badcacertpath := "ca-doesnotexist.pem"
 
+	testContainer := integration.NewTestContainer()
 	accs := map[string]*config.Account{
-		"starttls":           integration.NewAccount(t, "", "", 10143, true, false, true, nil),
-		"starttls_wrongport": integration.NewAccount(t, "", "", 42, true, false, true, nil),
-		"imaps":              integration.NewAccount(t, "", "", 10993, false, true, true, nil),
-		"imaps_wrongport":    integration.NewAccount(t, "", "", 42, false, true, true, nil),
-		"nocacert":           integration.NewAccount(t, "", "", 10143, true, false, true, &nocacert),
-		"badcacert":          integration.NewAccount(t, "", "", 10143, true, false, true, &badcacert),
-		"badcacertpath":      integration.NewAccount(t, "", "", 10143, true, false, true, &badcacertpath),
+		"starttls":           integration.NewAccount(t, testContainer.IP, "", "", testContainer.Imap, true, false, true, nil, testContainer.Redis),
+		"starttls_wrongport": integration.NewAccount(t, testContainer.IP, "", "", 42, true, false, true, nil, testContainer.Redis),
+		"imaps":              integration.NewAccount(t, testContainer.IP, "", "", testContainer.Imaps, false, true, true, nil, testContainer.Redis),
+		"imaps_wrongport":    integration.NewAccount(t, testContainer.IP, "", "", 42, false, true, true, nil, testContainer.Redis),
+		"nocacert":           integration.NewAccount(t, testContainer.IP, "", "", testContainer.Imap, true, false, true, &nocacert, testContainer.Redis),
+		"badcacert":          integration.NewAccount(t, testContainer.IP, "", "", testContainer.Imap, true, false, true, &badcacert, testContainer.Redis),
+		"badcacertpath":      integration.NewAccount(t, testContainer.IP, "", "", testContainer.Imap, true, false, true, &badcacertpath, testContainer.Redis),
 	}
 
 	defer func() {
 		for _, acc := range accs {
 			require.Nil(acc.Connection.Disconnect())
 		}
+
+		//require.NoError(integration.DeleteContainer(testContainer))
 	}()
 
 	// ACTUAL TESTS BELOW

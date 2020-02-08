@@ -13,7 +13,8 @@ import (
 func TestUploadMails(t *testing.T) {
 	require := require.New(t)
 
-	acc := integration.NewStandardAccount(t)
+	testContainer := integration.NewTestContainer()
+	acc := integration.NewAccount(t, testContainer.IP, "", "test", testContainer.Imap, true, false, true, nil, testContainer.Redis)
 
 	require.NoError(acc.Connection.Connect())
 	defer func() {
@@ -29,7 +30,8 @@ func TestUploadMails(t *testing.T) {
 func TestSearchAndFetchMails(t *testing.T) {
 	require := require.New(t)
 
-	acc := integration.NewStandardAccount(t)
+	testContainer := integration.NewTestContainer()
+	acc := integration.NewAccount(t, testContainer.IP, "", "test", testContainer.Imap, true, false, true, nil, testContainer.Redis)
 	const numTestmails = 3
 
 	require.NoError(acc.Connection.Connect())
@@ -63,7 +65,8 @@ func TestSearchAndFetchMails(t *testing.T) {
 func TestSetMailFlags(t *testing.T) {
 	require := require.New(t)
 
-	acc := integration.NewStandardAccount(t)
+	testContainer := integration.NewTestContainer()
+	acc := integration.NewAccount(t, testContainer.IP, "", "test", testContainer.Imap, true, false, true, nil, testContainer.Redis)
 	const numTestmails = 1
 
 	require.NoError(acc.Connection.Connect())
@@ -112,7 +115,8 @@ func TestSetMailFlags(t *testing.T) {
 func TestMoveMails(t *testing.T) {
 	require := require.New(t)
 
-	acc := integration.NewStandardAccount(t)
+	testContainer := integration.NewTestContainer()
+	acc := integration.NewAccount(t, testContainer.IP, "", "test", testContainer.Imap, true, false, true, nil, testContainer.Redis)
 	const numTestmails = 5
 
 	require.NoError(acc.Connection.Connect())
@@ -157,7 +161,8 @@ func TestMoveMails(t *testing.T) {
 func TestDeleteMails(t *testing.T) {
 	require := require.New(t)
 
-	acc := integration.NewStandardAccount(t)
+	testContainer := integration.NewTestContainer()
+	acc := integration.NewAccount(t, testContainer.IP, "", "test", testContainer.Imap, true, false, true, nil, testContainer.Redis)
 	const numTestmails = 3
 
 	require.NoError(acc.Connection.Connect())
@@ -198,7 +203,8 @@ func TestDeleteMails(t *testing.T) {
 func TestParseMailHeaders(t *testing.T) {
 	require := require.New(t)
 
-	acc := integration.NewStandardAccount(t)
+	testContainer := integration.NewTestContainer()
+	acc := integration.NewAccount(t, testContainer.IP, "", "test", testContainer.Imap, true, false, true, nil, testContainer.Redis)
 	const numTestmails = 5
 
 	require.NoError(acc.Connection.Connect())
@@ -275,7 +281,8 @@ func TestParseMailHeaders(t *testing.T) {
 func TestConnection_List(t *testing.T) {
 	require := require.New(t)
 
-	acc := integration.NewStandardAccount(t)
+	testContainer := integration.NewTestContainer()
+	acc := integration.NewAccount(t, testContainer.IP, "", "test", testContainer.Imap, true, false, true, nil, testContainer.Redis)
 
 	require.NoError(acc.Connection.Connect())
 	defer func() {

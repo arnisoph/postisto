@@ -12,7 +12,8 @@ import (
 func TestApplyCommands(t *testing.T) {
 	require := require.New(t)
 
-	acc := integration.NewStandardAccount(t)
+	testContainer := integration.NewTestContainer()
+	acc := integration.NewAccount(t, testContainer.IP, "", "test", testContainer.Imap, true, false, true, nil, testContainer.Redis)
 	const numTestmails = 2
 
 	require.NoError(acc.Connection.Connect())
