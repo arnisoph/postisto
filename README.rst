@@ -175,8 +175,8 @@ The `config/ directory <https://github.com/arnisoph/postisto/tree/master/config>
     :alt: Apache-2.0-licensed
     :target: https://github.com/arnisoph/postisto/blob/master/LICENSE
 
-.. |release| image:: https://img.shields.io/github/v/release/arnisoph/postisto?sort=semver
-    :alt: GitHub release (latest SemVer)
+.. |release| image:: https://img.shields.io/github/v/release/arnisoph/postisto
+    :alt: GitHub release
 
 .. |gitter| image:: https://badges.gitter.im/arnisoph/postisto.svg
     :alt: Join Gitter Chat
