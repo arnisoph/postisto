@@ -17,8 +17,6 @@ import (
 	"unsafe"
 )
 
-const MaxTestMailCount = 17
-
 func NewAccount(t *testing.T, host string, username string, password string, port int, starttls bool, imaps bool, tlsverify bool, cacertfile *string, redisPort int) *config.Account {
 	require := require.New(t)
 
@@ -176,6 +174,6 @@ func NewTestContainer() TestContainer {
 		Container: container}
 }
 
-func DeleteContainer(testContainer TestContainer) error {
-	return testContainer.Container.Terminate(testContainer.Context)
-}
+//func DeleteContainer(testContainer TestContainer) error {
+//	return testContainer.Container.Terminate(testContainer.Context)
+//}
