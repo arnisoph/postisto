@@ -3,7 +3,7 @@ appname := postisto
 sources = $(shell find . -type f -name '*.go' -not -path "./vendor/*")
 timestamp = $(shell date +"%Y.%m.%d")
 gitrev = $(shell git rev-parse --short HEAD)
-artifact_version = $(timestamp)-$(gitrev)
+artifact_version = v$(timestamp)-$(gitrev)
 
 build = GOOS=$(1) GOARCH=$(2) GOARM=$(4) go build -trimpath -ldflags "-X=main.build=$(artifact_version)" -o build/$(appname)$(3) cmd/$(appname)/main.go
 tar = cd build && tar -cvzf $(appname)-$(artifact_version).$(1)-$(2).tar.gz $(appname)$(3) && rm $(appname)$(3)
@@ -11,7 +11,7 @@ zip = cd build && zip $(appname)-$(artifact_version).$(1)-$(2).zip $(appname)$(3
 
 all: build test install
 
-.PHONY: build test go.test clean fmt go.mod vendor-update vendor docker-build release github-release docker-release install version
+.PHONY: build test go.test clean fmt go.mod vendor-update vendor docker-build release github-release docker-release install version git-release
 
 build: clean docker-build windows darwin linux
 
@@ -53,7 +53,10 @@ docker-build:
 docker-release: docker-build
 	docker push docker.pkg.github.com/arnisoph/postisto/linux:$(artifact_version)
 
-release: build docker-release
+git-release:
+	git tag $(artifact_version)
+
+release: git-release build docker-release
 
 version:
 	@echo $(artifact_version)
