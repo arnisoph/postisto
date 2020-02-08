@@ -18,7 +18,8 @@ import (
 func TestGetUnsortedMails(t *testing.T) {
 	require := require.New(t)
 
-	acc := integration.NewStandardAccount(t)
+	testContainer := integration.NewTestContainer()
+	acc := integration.NewAccount(t, testContainer.IP, "", "test", testContainer.Imap, true, false, true, nil, testContainer.Redis)
 	const numTestmails = 2
 
 	require.NoError(acc.Connection.Connect())
@@ -38,6 +39,7 @@ func TestGetUnsortedMails(t *testing.T) {
 
 func TestEvaluateFilterSetsOnMails(t *testing.T) {
 	require := require.New(t)
+	testContainer := integration.NewTestContainer()
 
 	type targetStruct struct {
 		name  string
@@ -130,12 +132,16 @@ func TestEvaluateFilterSetsOnMails(t *testing.T) {
 		filters := cfg.Filters["local_imap_server"]
 
 		// Create new random user
-		acc.Connection.Username = integration.NewStandardAccount(t).Connection.Username
+		acc.Connection.Username, err = integration.NewIMAPUser(testContainer.IP, "", acc.Connection.Password, testContainer.Redis)
+		require.NoError(err)
 		require.Equal("test", cfg.Accounts["local_imap_server"].Connection.Password)
 
 		if strings.Contains(acc.Connection.Server, "gmail") { //TODO tidy up
 			acc.Connection.Username = os.Getenv("POSTISTO_GMAIL_TEST_ACC_USERNAME")
 			acc.Connection.Password = os.Getenv("POSTISTO_GMAIL_TEST_ACC_PASSWORD")
+		} else {
+			acc.Connection.Server = testContainer.IP
+			acc.Connection.Port = testContainer.Imap
 		}
 
 		// Set debug info for failed assertions

@@ -42,9 +42,9 @@ jobs:
         run: |
           make go.get
 
-      - name: setup integration env
-        run: |
-          docker run -d --name dovecot -p 10143:143 -p 10993:993 -p 6379:6379 bechtoldt/tabellarius_tests-docker
+#      - name: setup integration env
+#        run: |
+#          docker run -d --name dovecot -p 10143:143 -p 10993:993 -p 6379:6379 bechtoldt/tabellarius_tests-docker
 
       - name: go test
         env:

@@ -3,6 +3,7 @@ module github.com/arnisoph/postisto
 go 1.13
 
 require (
+	github.com/docker/go-connections v0.4.0
 	github.com/emersion/go-imap v1.0.3-0.20200105191252-c79bafa3e782
 	github.com/emersion/go-imap-move v0.0.0-20190710073258-6e5a51a5b342
 	github.com/emersion/go-message v0.10.8
@@ -10,8 +11,9 @@ require (
 	github.com/imdario/mergo v0.3.8
 	github.com/onsi/ginkgo v1.11.0 // indirect
 	github.com/onsi/gomega v1.8.1 // indirect
-	github.com/pkg/errors v0.8.1
+	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.4.0
+	github.com/testcontainers/testcontainers-go v0.1.1
 	github.com/urfave/cli/v2 v2.1.1
 	go.uber.org/zap v1.13.0
 	golang.org/x/sys v0.0.0-20191010194322-b09406accb47 // indirect

@@ -12,26 +12,26 @@ zip = cd build && zip $(appname)-$(artifact_version).$(1)-$(2).zip $(appname)$(3
 
 all: build test install
 
-.PHONY: build test start-test-container test-without-docker go.test clean fmt go.mod vendor-update vendor docker-build release github-release docker-release install
+.PHONY: build test go.test clean fmt go.mod vendor-update vendor docker-build release github-release docker-release install
 
 build: clean docker-build windows darwin linux
 
 build/$(appname): $(sources)
 	go build -ldflags "-X=main.build=$(build_version)" -v -o build/$(appname) cmd/$(appname)/main.go
 
-test: start-test-container go.test
+test: go.test
 
-start-test-container:
-	docker exec dovecot true &>/dev/null || docker run -d --name dovecot -p 10143:143 -p 10993:993 -p 6379:6379 bechtoldt/tabellarius_tests-docker
+#start-test-container:
+#	docker exec dovecot true &>/dev/null || docker run -d --name dovecot -p 10143:143 -p 10993:993 -p 6379:6379 bechtoldt/tabellarius_tests-docker
 
-test-without-docker:
-	go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+#test-without-docker:
+#	go test -race -coverprofile=coverage.txt -covermode=atomic ./...
 
 clean:
 	rm -rf build/*
 	rm -rf postisto
-	docker kill dovecot 2>/dev/null || true
-	docker rm dovecot 2>/dev/null || true
+#	docker kill dovecot 2>/dev/null || true
+#	docker rm dovecot 2>/dev/null || true
 
 install: build/$(appname)
 	cp build/$(appname) $(GOBIN)/postisto
