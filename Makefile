@@ -1,12 +1,11 @@
 appname := postisto
 
 sources = $(shell find . -type f -name '*.go' -not -path "./vendor/*")
-artifact_version = $(shell cat VERSION | tr -d '\n')
-timestamp = $(shell date +%Y%m%d-%H%M%S)
+timestamp = $(shell date +"%Y.%m.%d")
 gitrev = $(shell git rev-parse --short HEAD)
-build_version = $(artifact_version)-$(timestamp)+$(gitrev)
+artifact_version = $(timestamp)+$(gitrev)
 
-build = GOOS=$(1) GOARCH=$(2) GOARM=$(4) go build -trimpath -ldflags "-X=main.build=$(build_version)" -o build/$(appname)$(3) cmd/$(appname)/main.go
+build = GOOS=$(1) GOARCH=$(2) GOARM=$(4) go build -trimpath -ldflags "-X=main.build=$(artifact_version)" -o build/$(appname)$(3) cmd/$(appname)/main.go
 tar = cd build && tar -cvzf $(appname)-$(artifact_version).$(1)-$(2).tar.gz $(appname)$(3) && rm $(appname)$(3)
 zip = cd build && zip $(appname)-$(artifact_version).$(1)-$(2).zip $(appname)$(3) && rm $(appname)$(3)
 
@@ -17,7 +16,7 @@ all: build test install
 build: clean docker-build windows darwin linux
 
 build/$(appname): $(sources)
-	go build -ldflags "-X=main.build=$(build_version)" -v -o build/$(appname) cmd/$(appname)/main.go
+	go build -ldflags "-X=main.build=$(artifact_version)" -v -o build/$(appname) cmd/$(appname)/main.go
 
 test: go.test
 
