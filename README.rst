@@ -177,6 +177,7 @@ The `config/ directory <https://github.com/arnisoph/postisto/tree/master/config>
 
 .. |release| image:: https://img.shields.io/github/v/release/arnisoph/postisto
     :alt: GitHub release
+    :target: https://github.com/arnisoph/postisto/releases
 
 .. |gitter| image:: https://badges.gitter.im/arnisoph/postisto.svg
     :alt: Join Gitter Chat
