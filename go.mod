@@ -4,9 +4,9 @@ go 1.13
 
 require (
 	github.com/docker/go-connections v0.4.0
-	github.com/emersion/go-imap v1.0.3-0.20200105191252-c79bafa3e782
+	github.com/emersion/go-imap v1.0.3
 	github.com/emersion/go-imap-move v0.0.0-20190710073258-6e5a51a5b342
-	github.com/emersion/go-message v0.10.8
+	github.com/emersion/go-message v0.11.1
 	github.com/garyburd/redigo v1.6.0 // indirect
 	github.com/imdario/mergo v0.3.8
 	github.com/onsi/ginkgo v1.11.0 // indirect
