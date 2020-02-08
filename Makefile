@@ -21,17 +21,9 @@ build/$(appname): $(sources)
 
 test: go.test
 
-#start-test-container:
-#	docker exec dovecot true &>/dev/null || docker run -d --name dovecot -p 10143:143 -p 10993:993 -p 6379:6379 bechtoldt/tabellarius_tests-docker
-
-#test-without-docker:
-#	go test -race -coverprofile=coverage.txt -covermode=atomic ./...
-
 clean:
 	rm -rf build/*
 	rm -rf postisto
-#	docker kill dovecot 2>/dev/null || true
-#	docker rm dovecot 2>/dev/null || true
 
 install: build/$(appname)
 	cp build/$(appname) $(GOBIN)/postisto

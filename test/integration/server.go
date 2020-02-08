@@ -55,10 +55,6 @@ func NewAccount(t *testing.T, host string, username string, password string, por
 	return &acc
 }
 
-//func NewStandardAccount(t *testing.T) *config.Account {
-//	return NewAccount(t, "", "", "test", 10143, true, false, true, nil)
-//}
-
 func RandString(n int) string { // https://stackoverflow.com/questions/22892120/how-to-generate-a-random-string-of-a-fixed-length-in-go
 	const letterBytes = "abcdefghijklmnopqrstuvwxyz0123456789"
 	const (
@@ -166,7 +162,7 @@ func NewTestContainer() TestContainer {
 		log.Fatal("Failed to get test Container port", err)
 	}
 
-	redisPort, err := container.MappedPort(ctx, "6379")
+	kv, err := container.MappedPort(ctx, "6379")
 	if err != nil {
 		log.Fatal("Failed to get test Container port", err)
 	}
@@ -175,7 +171,7 @@ func NewTestContainer() TestContainer {
 		IP:        ip,
 		Imap:      imap.Int(),
 		Imaps:     imaps.Int(),
-		Redis:     redisPort.Int(),
+		Redis:     kv.Int(),
 		Context:   ctx,
 		Container: container}
 }
