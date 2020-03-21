@@ -408,6 +408,7 @@ func (conn *Connection) Select(mailbox string, readOnly bool, autoCreate bool) (
 		}
 	}
 
+	log.Debugw("Selecting mailbox", "mailbox", mailbox)
 	status, err := conn.imapClient.Select(mailbox, readOnly)
 
 	if err == nil {
