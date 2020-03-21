@@ -37,9 +37,9 @@ func (conn *Connection) Upload(file string, mailbox string, flags []string) erro
 		return err
 	}
 
-	//if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return err
 		}
@@ -63,6 +63,7 @@ func (conn *Connection) Upload(file string, mailbox string, flags []string) erro
 func (conn *Connection) Search(mailbox string, withFlags []string, withoutFlags []string) ([]uint32, error) {
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return nil, err
 		}
@@ -90,6 +91,7 @@ func (conn *Connection) Search(mailbox string, withFlags []string, withoutFlags 
 func (conn *Connection) Fetch(mailbox string, uids []uint32) ([]*Message, error) {
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return nil, err
 		}
@@ -138,6 +140,7 @@ func (conn *Connection) Fetch(mailbox string, uids []uint32) ([]*Message, error)
 func (conn *Connection) SearchAndFetch(mailbox string, withFlags []string, withoutFlags []string) ([]*Message, error) {
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return nil, err
 		}
@@ -159,6 +162,7 @@ func (conn *Connection) DeleteMsgs(mailbox string, uids []uint32, expunge bool) 
 func (conn *Connection) SetFlags(mailbox string, uids []uint32, flagOp string, flags []interface{}, expunge bool) error {
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return err
 		}
@@ -202,6 +206,7 @@ func (conn *Connection) GetFlags(mailbox string, uid uint32) ([]string, error) {
 
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return nil, err
 		}
@@ -241,6 +246,7 @@ func (conn *Connection) CreateMailbox(name string) error {
 
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return err
 		}
@@ -259,6 +265,7 @@ func (conn *Connection) DeleteMailbox(name string) error {
 
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return err
 		}
@@ -276,6 +283,7 @@ func (conn *Connection) DeleteMailbox(name string) error {
 func (conn *Connection) List() (map[string]imapUtil.MailboxInfo, error) {
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return nil, err
 		}
@@ -340,6 +348,7 @@ func (conn *Connection) List() (map[string]imapUtil.MailboxInfo, error) {
 func (conn *Connection) Move(uids []uint32, from string, to string) error {
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return err
 		}
@@ -393,6 +402,7 @@ func (conn *Connection) Move(uids []uint32, from string, to string) error {
 func (conn *Connection) Select(mailbox string, readOnly bool, autoCreate bool) (*imapUtil.MailboxStatus, error) {
 	// Re-login if necessary
 	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
 		if err := conn.Connect(); err != nil {
 			return nil, err
 		}
