@@ -9,7 +9,15 @@ import (
 	"testing"
 )
 
-func TestStartApp(t *testing.T) {
+func TestNewApp(t *testing.T) {
+	app := newApp()
+	require := require.New(t)
+
+	// ACTUAL TESTS BELOW
+	require.Equal("quite okay mail-sorting", app.Usage)
+}
+
+func TestRunApp(t *testing.T) {
 	require := require.New(t)
 
 	// Create local test IMAP server
@@ -38,7 +46,8 @@ func TestStartApp(t *testing.T) {
 	require.NoError(ioutil.WriteFile("../../test/data/configs/valid/local_imap_server/TestStartApp/.local.acc.yaml", []byte(portConfig), 0644))
 
 	// ACTUAL TESTS BELOW
-	require.NoError(startApp("../../test/data/configs/valid/local_imap_server/TestStartApp/", "debug", false, 42, true))
+	require.EqualError(runApp("does-not exist", "debug", false, 42, true), "lstat does-not exist: no such file or directory")
+	require.NoError(runApp("../../test/data/configs/valid/local_imap_server/TestStartApp/", "debug", false, 42, true))
 
 	// Verify results
 	fetchedMails, err := acc.Connection.Search(*acc.InputMailbox, nil, []string{server.FlaggedFlag})

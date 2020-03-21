@@ -15,13 +15,21 @@ import (
 var build string
 
 func main() {
+	app := newApp()
+
+	if err := app.Run(os.Args); err != nil {
+		goLog.Fatalln("Failed to start app:", err)
+	}
+}
+
+func newApp() *cli.App {
 	var configPath string
 	var logLevel string
 	var logJSON bool
 	var pollInterval time.Duration
 	var onetime bool
 
-	app := &cli.App{
+	app := cli.App{
 		Name:  "poŝtisto",
 		Usage: "quite okay mail-sorting",
 		Flags: []cli.Flag{
@@ -66,17 +74,15 @@ func main() {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			return startApp(configPath, logLevel, logJSON, pollInterval, onetime)
+			return runApp(configPath, logLevel, logJSON, pollInterval, onetime)
 		},
 		Version: build,
 	}
 
-	if err := app.Run(os.Args); err != nil {
-		goLog.Fatalln("Failed to start app:", err)
-	}
+	return &app
 }
 
-func startApp(configPath string, logLevel string, logJSON bool, pollInterval time.Duration, onetime bool) error {
+func runApp(configPath string, logLevel string, logJSON bool, pollInterval time.Duration, onetime bool) error {
 
 	if err := log.InitWithConfig(logLevel, logJSON); err != nil {
 		return err
