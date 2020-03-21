@@ -1,0 +1,22 @@
+# vim: ts=2 sw=2 et
+
+filters:
+  local_imap_server:
+    main:
+      commands:
+        move: MyTarget
+      rules:
+        - and:
+          - from:
+            - "@youth4work.com"
+    test_regex:
+      commands:
+        move: MailFilterTest-TestRegex
+      rules:
+        - and:
+          - from:
+            - '^.*@bigrock\.com.*$'
+          - delivered-to:
+            - cyberzonec.in
+          - content-type:
+            - ^(?:text/html|text/plain).*$
