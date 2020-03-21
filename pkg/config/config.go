@@ -45,6 +45,8 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 	}
 
 	for _, file := range configFiles {
+		log.Debugw("Parsing config YAML file", "file", file)
+
 		fileCfg := new(Config)
 		yamlFile, err := ioutil.ReadFile(file)
 
@@ -60,6 +62,7 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 			log.Errorw("Failed to parse YAML file", err, "file", file)
 			return nil, err
 		}
+		log.Debugw("Successfully parsed YAML file", "file", file, "parsedFile", string(yamlFile))
 
 		// Merge configs from files
 		if err := mergo.Merge(cfg, fileCfg, mergo.WithOverride, mergo.WithTypeCheck); err != nil {
@@ -68,6 +71,7 @@ func NewConfigFromFile(configPath string) (*Config, error) {
 		}
 	}
 
+	log.Debugw("Successfully parsed all YAML files, checking for validity now", "cfg", cfg)
 	newCfg, err := cfg.validate(passwords)
 	if err != nil {
 		return nil, err

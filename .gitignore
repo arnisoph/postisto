@@ -6,4 +6,5 @@ config/**/*.yaml
 config/**/*.yml
 coverage.txt
 test/data/configs/invalid-unreadable-file/
+test/data/configs/valid/local_imap_server/TestStartApp/.local.*
 vendor/
