@@ -11,7 +11,7 @@ zip = cd build && zip $(appname)-$(artifact_version).$(1)-$(2).zip $(appname)$(3
 
 all: build test install
 
-.PHONY: build test go.test clean fmt go.mod vendor-update vendor docker-build release github-release docker-release install version git-release
+.PHONY: build test go.test clean fmt vendor-update vendor docker-build release github-release docker-release install version git-release
 
 build: clean docker-build windows darwin linux
 
@@ -38,12 +38,11 @@ go.test:
 
 go.get:
 	go mod download
-
-vendor-update: go.mod
-	GO111MODULE=on go get -u=patch
-
-vendor: go.mod
-	GO111MODULE=on go mod vendor
+vendor:
+	go mod vendor
+	cd cmd/postisto/ && go get -u=patch
+	cd test/integration/ && go get -u=patch
+	go mod tidy
 
 docker-build:
 	$(call build,linux,amd64,)
