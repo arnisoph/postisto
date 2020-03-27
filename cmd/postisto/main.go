@@ -140,6 +140,7 @@ func runApp(configPath string, logLevel string, logJSON bool, pollInterval time.
 					// this can happen, so let's just reconnect
 					//TODO implement exponential backoff to avoid too much noise?
 
+					time.Sleep(time.Second * 3)
 					if err := accInfo.acc.Connection.Connect(); err != nil {
 						return fmt.Errorf("failed to reconnect to server %q with username %q", accInfo.acc.Connection.Server, accInfo.acc.Connection.Username)
 					}
