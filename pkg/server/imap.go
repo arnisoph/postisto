@@ -2,6 +2,7 @@ package server
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"github.com/arnisoph/postisto/pkg/log"
 	imapUtil "github.com/emersion/go-imap"
@@ -20,6 +21,12 @@ const (
 	DraftFlag    = "\\Draft"
 	RecentFlag   = "\\Recent"
 )
+
+var ErrConnectionClosed = errors.New("imap: connection closed")
+
+func IsDisconnected(err error) bool { //TODO https://github.com/emersion/go-imap/issues/348
+	return err.Error() == ErrConnectionClosed.Error()
+}
 
 func (conn *Connection) requiresReconnect() bool {
 	return conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState)
