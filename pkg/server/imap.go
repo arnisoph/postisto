@@ -2,6 +2,7 @@ package server
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"github.com/arnisoph/postisto/pkg/log"
 	imapUtil "github.com/emersion/go-imap"
@@ -21,6 +22,27 @@ const (
 	RecentFlag   = "\\Recent"
 )
 
+var ErrConnectionClosed = errors.New("imap: connection closed")
+
+func IsDisconnected(err error) bool { //TODO https://github.com/emersion/go-imap/issues/348
+	return err.Error() == ErrConnectionClosed.Error()
+}
+
+func (conn *Connection) requiresReconnect() bool {
+	return conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState)
+}
+
+func (conn *Connection) ensureConnected() error {
+	if conn.requiresReconnect() {
+		log.Infow("Server connection lost, trying to reconnect...", "server", conn.Server, "username", conn.Username)
+		if err := conn.Connect(); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (conn *Connection) Upload(file string, mailbox string, flags []string) error {
 	data, err := os.Open(file)
 	defer data.Close()
@@ -37,12 +59,9 @@ func (conn *Connection) Upload(file string, mailbox string, flags []string) erro
 		return err
 	}
 
-	//if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return err
 	}
 
 	// Select mailbox
@@ -62,10 +81,8 @@ func (conn *Connection) Upload(file string, mailbox string, flags []string) erro
 
 func (conn *Connection) Search(mailbox string, withFlags []string, withoutFlags []string) ([]uint32, error) {
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return nil, err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return nil, err
 	}
 
 	// Select mailbox
@@ -89,10 +106,8 @@ func (conn *Connection) Search(mailbox string, withFlags []string, withoutFlags 
 
 func (conn *Connection) Fetch(mailbox string, uids []uint32) ([]*Message, error) {
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return nil, err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return nil, err
 	}
 
 	// Select mailbox
@@ -137,10 +152,8 @@ func (conn *Connection) Fetch(mailbox string, uids []uint32) ([]*Message, error)
 
 func (conn *Connection) SearchAndFetch(mailbox string, withFlags []string, withoutFlags []string) ([]*Message, error) {
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return nil, err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return nil, err
 	}
 
 	uids, err := conn.Search(mailbox, withFlags, withoutFlags)
@@ -158,10 +171,8 @@ func (conn *Connection) DeleteMsgs(mailbox string, uids []uint32, expunge bool) 
 
 func (conn *Connection) SetFlags(mailbox string, uids []uint32, flagOp string, flags []interface{}, expunge bool) error {
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return err
 	}
 
 	log.Debugw("Starting to set flags on mails", "mailbox", mailbox, "uids", uids, "flagOp", flagOp, "flags", flags, "expunge", expunge)
@@ -201,10 +212,8 @@ func (conn *Connection) GetFlags(mailbox string, uid uint32) ([]string, error) {
 	log.Debugw("Starting to get flags from a mail", "mailbox", mailbox, "uid", uid)
 
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return nil, err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return nil, err
 	}
 
 	// Select mailbox
@@ -240,10 +249,8 @@ func (conn *Connection) CreateMailbox(name string) error {
 	log.Infow("Creating new mailbox", "mailbox", name)
 
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return err
 	}
 
 	if err := conn.imapClient.Create(name); err != nil {
@@ -258,10 +265,8 @@ func (conn *Connection) DeleteMailbox(name string) error {
 	log.Infow("Deleting mailbox", "mailbox", name)
 
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return err
 	}
 
 	if err := conn.imapClient.Delete(name); err != nil {
@@ -275,10 +280,8 @@ func (conn *Connection) DeleteMailbox(name string) error {
 // List mailboxes
 func (conn *Connection) List() (map[string]imapUtil.MailboxInfo, error) {
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return nil, err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return nil, err
 	}
 
 	mailboxesChan := make(chan *imapUtil.MailboxInfo)
@@ -339,10 +342,8 @@ func (conn *Connection) List() (map[string]imapUtil.MailboxInfo, error) {
 
 func (conn *Connection) Move(uids []uint32, from string, to string) error {
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return err
 	}
 
 	var err error
@@ -392,12 +393,11 @@ func (conn *Connection) Move(uids []uint32, from string, to string) error {
 
 func (conn *Connection) Select(mailbox string, readOnly bool, autoCreate bool) (*imapUtil.MailboxStatus, error) {
 	// Re-login if necessary
-	if conn.imapClient == nil || (conn.imapClient.State() != imapUtil.AuthenticatedState && conn.imapClient.State() != imapUtil.SelectedState) {
-		if err := conn.Connect(); err != nil {
-			return nil, err
-		}
+	if err := conn.ensureConnected(); err != nil {
+		return nil, err
 	}
 
+	log.Debugw("Selecting mailbox", "mailbox", mailbox)
 	status, err := conn.imapClient.Select(mailbox, readOnly)
 
 	if err == nil {

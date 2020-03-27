@@ -119,13 +119,35 @@ func runApp(configPath string, logLevel string, logJSON bool, pollInterval time.
 		}
 
 		acc := cfg.Accounts[name]
+
+		if err := acc.Connection.Connect(); err != nil {
+			return fmt.Errorf("failed to initially connect to server %q with username %q", acc.Connection.Server, acc.Connection.Username)
+		}
+
 		accs = append(accs, &accInfo{name: name, acc: &acc, filters: filters})
 	}
 
-	log.Info("Entering continuously running mail search & filter loop. Waiting for mails...")
+	if onetime {
+		log.Info("Entering mail search & filter loop once and exit then immediately")
+	} else {
+		log.Info("Entering continuously running mail search & filter loop. Waiting for mails...")
+	}
+
 	for {
 		for _, accInfo := range accs {
 			if err := filter.EvaluateFilterSetsOnMsgs(&accInfo.acc.Connection, *accInfo.acc.InputMailbox, []string{server.SeenFlag, server.FlaggedFlag}, *accInfo.acc.FallbackMailbox, accInfo.filters); err != nil {
+				if server.IsDisconnected(err) {
+					// this can happen, so let's just reconnect
+					//TODO implement exponential backoff to avoid too much noise?
+
+					time.Sleep(time.Second * 3)
+					if err := accInfo.acc.Connection.Connect(); err != nil {
+						return fmt.Errorf("failed to reconnect to server %q with username %q", accInfo.acc.Connection.Server, accInfo.acc.Connection.Username)
+					}
+
+					continue
+				}
+
 				return fmt.Errorf("failed to run filter engine: %v", err)
 			}
 		}
