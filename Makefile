@@ -46,11 +46,11 @@ vendor:
 
 docker-build:
 	$(call build,linux,amd64,)
-	docker build -t docker.pkg.github.com/arnisoph/postisto/linux:$(artifact_version) .
+	docker build -t ghcr.io/arnisoph/postisto/linux:$(artifact_version) .
 	make clean
 
 docker-release: docker-build
-	docker push docker.pkg.github.com/arnisoph/postisto/linux:$(artifact_version)
+	docker push ghcr.io/arnisoph/postisto/linux:$(artifact_version)
 
 git-release:
 	git tag $(artifact_version)
