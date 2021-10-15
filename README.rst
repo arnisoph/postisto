@@ -158,8 +158,8 @@ Read plain text password from filesystem:
     $ echo -n "MyP@ssw0rd42" > config/.postisto.myaccount.pwd
     $ ls -lA config
     total 16
-    -rw-r--r--  1 ab  staff  12 Jan 20 22:37 .postisto.myaccount.pwd
-    -rw-r--r--  1 ab  staff  15 Jan 20 22:37 config.yml
+    -rw-r--r--  1 ab  staff  12 Jan 20 13:37 .postisto.myaccount.pwd
+    -rw-r--r--  1 ab  staff  15 Jan 20 13:37 config.yml
     $ postisto -c config/
 
 The *pwd file* must match ``.postisto.<YOUR-ACCOUNT-NAME-FROM-CONFIG-FILE>.pwd``.
