@@ -7,15 +7,17 @@ import (
 	"github.com/arnisoph/postisto/pkg/log"
 	"github.com/arnisoph/postisto/pkg/server"
 	"github.com/docker/go-connections/nat"
+	"github.com/redis/go-redis/v9"
 	"github.com/stretchr/testify/require"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
-	"gopkg.in/redis.v4"
 	"math/rand"
 	"testing"
 	"time"
 	"unsafe"
 )
+
+var ctx = context.Background()
 
 func NewAccount(t *testing.T, host string, username string, password string, port int, starttls bool, imaps bool, tlsverify bool, cacertfile *string, redisPort int) *config.Account {
 	require := require.New(t)
@@ -95,7 +97,7 @@ func NewIMAPUser(host string, username string, password string, redisPort int) (
 		key := fmt.Sprintf("dovecot/%v/%v", db, username)
 		value := fmt.Sprintf(`{"uid":"65534","gid":"65534","home":"/tmp/%[1]v","username":"%[1]v","password":"%[2]v"}`, username, password)
 
-		if err := redisClient.Set(key, value, 0).Err(); err != nil {
+		if err := redisClient.Set(ctx, key, value, 0).Err(); err != nil {
 			return username, err
 		}
 	}
@@ -110,7 +112,7 @@ func newRedisClient(host string, port int) (*redis.Client, error) {
 		DB:       0,
 	})
 
-	_, err := redisClient.Ping().Result()
+	_, err := redisClient.Ping(ctx).Result()
 
 	return redisClient, err
 }
