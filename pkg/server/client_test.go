@@ -1,6 +1,7 @@
 package server_test
 
 import (
+	"fmt"
 	"github.com/arnisoph/postisto/pkg/config"
 	"github.com/arnisoph/postisto/test/integration"
 	"github.com/stretchr/testify/require"
@@ -63,11 +64,17 @@ func TestConnect(t *testing.T) {
 
 	if os.Getenv("USER") != "ab" {
 		acc = *accs["nocacert"]
-		require.EqualError(acc.Connection.Connect(), "x509: certificate signed by unknown authority")
+
+		errs := []string{
+			"tls: failed to verify certificate: x509: “localhost” certificate is not standards compliant", // darwin
+			"tls: failed to verify certificate: x509: certificate signed by unknown authority",            // linux
+		}
+
+		require.Contains(errs, fmt.Sprint(acc.Connection.Connect()))
 	}
 
 	acc = *accs["badcacert"]
-	require.EqualError(acc.Connection.Connect(), "x509: certificate signed by unknown authority")
+	require.EqualError(acc.Connection.Connect(), "tls: failed to verify certificate: x509: certificate signed by unknown authority")
 
 	acc = *accs["badcacertpath"]
 	require.EqualError(acc.Connection.Connect(), "open ca-doesnotexist.pem: no such file or directory")
