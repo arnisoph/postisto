@@ -46,7 +46,7 @@ vendor:
 
 docker-build:
 	$(call build,linux,amd64,)
-	docker build -t ghcr.io/arnisoph/postisto/linux:$(artifact_version) .
+	docker build --platform linux/amd64,linux/arm64 -t ghcr.io/arnisoph/postisto/linux:$(artifact_version) .
 	make clean
 
 docker-release: docker-build
