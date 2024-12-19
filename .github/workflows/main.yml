@@ -21,9 +21,33 @@ jobs:
       run: |
         make go.get
 
-    - name: Build
+    - name: Build binaries
       run: |
-        make build
+        make windows darwin linux
+
+    - name: Set up Docker
+      uses: docker/setup-docker-action@v4
+      with:
+        daemon-config: |
+          {
+            "debug": true,
+            "features": {
+              "containerd-snapshotter": true
+            }
+          }
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Build docker image
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        platforms: linux/amd64,linux/arm64
+        load: true
+        tags: ghcr.io/arnisoph/postisto/linux:buildtestonly
+        push: false
+
 
   test:
     name: Test
